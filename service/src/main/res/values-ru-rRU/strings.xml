@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Умеренный</string>
     <string name="uvindex_strong">Сильный</string>
     <string name="uvindex_verystrong">Очень сильный</string>
+    <string name="alarm">Будильник</string>
+    <string name="alarm_snooze">Отложить</string>
+    <string name="alarm_dismiss">Отменить</string>
+    <string name="camera_delay">Задержка</string>
+    <string name="camera_shutter">Затвор камеры</string>
 </resources>

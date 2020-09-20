@@ -30,7 +30,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         sb.append("AlarmReceiver code: ");
         sb.append(code);
         Logger.debug(sb.toString());
-        if (code == 1111) {
+        if (code == CHIME_CODE) {
             chime(context);
         } else {
             Logger.error("AlarmReceiver unknown request code!");
@@ -44,8 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mp.setAudioAttributes(new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_ALARM).build());
                 Logger.debug("Set to use alarm channel");
-                Uri sound;
-                sound = Uri.parse(Constants.RES_PREFIX + R.raw.hourly_chime);
+                Uri sound = Uri.parse(Constants.RES_PREFIX + R.raw.hourly_chime);
                 try {
                     mp.setDataSource(context, sound);
                     mp.prepare();
@@ -56,13 +55,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mp.start();
             }
             final Vibrator mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            final long[] pattern = new long[]{0, 200, 100, 200};
             if (mVibrator != null) {
-                mVibrator.vibrate(200);
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        mVibrator.vibrate(200);
-                    }
-                }, 300);
+                mVibrator.vibrate(pattern, -1);
             } else {
                 Logger.error("AlarmReceiver null vibrator!");
             }

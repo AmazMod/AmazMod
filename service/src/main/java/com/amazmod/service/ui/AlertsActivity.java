@@ -81,12 +81,7 @@ public class AlertsActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        final Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                makeVibration(vibrate);
-            }
-        }, 1500);
+        makeVibration(new long[]{1500 /*Start delay*/, vibrate});
     }
 
     @Override
@@ -122,6 +117,10 @@ public class AlertsActivity extends Activity {
     }
 
     private void makeVibration(int duration) {
+        makeVibration(new long[]{0, duration});
+    }
+
+    private void makeVibration(long[] pattern){
         //Do not vibrate if DND is active
         if (DeviceUtil.isDNDActive(this))
             return;
@@ -129,9 +128,9 @@ public class AlertsActivity extends Activity {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         try {
             if (vibrator != null)
-                vibrator.vibrate(duration);
+                vibrator.vibrate(pattern, -1);
         } catch (Exception ex) {
-            Logger.error(ex, "AlertsActivity makeVibration excepition: ", ex.getMessage());
+            Logger.error(ex, "AlertsActivity makeVibration exception: ", ex.getMessage());
         }
     }
 

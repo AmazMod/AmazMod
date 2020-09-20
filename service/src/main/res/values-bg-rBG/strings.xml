@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Moderate</string>
     <string name="uvindex_strong">Strong</string>
     <string name="uvindex_verystrong">Very strong</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
+    <string name="camera_delay">Delay</string>
+    <string name="camera_shutter">Camera Shutter</string>
 </resources>

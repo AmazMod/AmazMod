@@ -31,6 +31,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
+
+import amazmod.com.transport.data.WatchStatusData;
 
 /**
  * Gives access to the system properties store. The system properties store contains a list of
@@ -43,8 +46,7 @@ public class SystemProperties {
     // Get the value for the given key.
     public static String get(String key) {
         try {
-            Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
-            return (String) SP.getMethod("get", String.class).invoke(SystemProperties, key);
+            return (String) SP.getMethod("get", String.class).invoke(null, key);
         } catch (Exception e) {
             return null;
         }
@@ -231,11 +233,11 @@ public class SystemProperties {
     }
 
     public static boolean isPace(){
-        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace") || new File("/system/.pace_hybrid").exists();
+        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace");
     }
 
     public static boolean isStratos(){
-        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos") && !new File("/system/.pace_hybrid").exists();
+        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos");
     }
 
     public static boolean isVerge(){
@@ -248,10 +250,21 @@ public class SystemProperties {
 
     public static boolean checkIfModel(String[] targetModels, String Name){
         // String model = getSystemProperty("ro.build.huami.model");
-        String model = get("ro.build.huami.model");
+        // String model = get("ro.build.huami.model");
+        String model;
+        String serial = get(WatchStatusData.RO_SERIALNO, "-");
+        if(!serial.equals("-"))
+            model = getModelNoBySerialNo(serial);
+        else
+            model = get("ro.build.huami.model");
         boolean check = Arrays.asList(targetModels).contains(model);
         Logger.debug("[System Properties] Current model (" + model + ") is " + ((check)?"":"NOT ") + "a " + Name);
         return check;
+    }
+
+    public static String getModelNoBySerialNo(String serialNo){
+        // Serial is xxxx00000000 and model number is Axxxx
+        return "A"+serialNo.substring(0, 4);
     }
 
     /**

@@ -17,25 +17,19 @@ import androidx.annotation.Nullable;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
-
+import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import org.tinylog.Logger;
-
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPreferencesEntity> {
 
-    private Bridge silencedApplicationsBridge;
-    private Context context;
+    private SilencedApplicationsFragment mActivity;
+    private Context mContext;
 
-    public SilencedApplicationsAdapter(Bridge silencedApplicationsBridge, int resource, @NonNull List<NotificationPreferencesEntity> objects) {
-        super(silencedApplicationsBridge.getContext(), resource, objects);
-
-        this.silencedApplicationsBridge = silencedApplicationsBridge;
-        context = silencedApplicationsBridge.getContext();
+    public SilencedApplicationsAdapter(SilencedApplicationsFragment activity, int resource, @NonNull List<NotificationPreferencesEntity> objects) {
+        super(activity.getContext(), resource, objects);
+        mContext = activity.getContext();
+        mActivity = activity;
     }
 
     @NonNull
@@ -43,23 +37,21 @@ public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPrefer
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View gridItem = convertView;
         if (gridItem == null) {
-            gridItem = LayoutInflater.from(context).inflate(R.layout.item_silenced_app, parent, false);
+            gridItem = LayoutInflater.from(mContext).inflate(R.layout.item_silenced_app, parent, false);
         }
 
         final NotificationPreferencesEntity currentSilencedApplication = getItem(position);
-
-        ViewHolder viewHolder = new ViewHolder(silencedApplicationsBridge, currentSilencedApplication, context);
-        ButterKnife.bind(viewHolder, gridItem);
+        ViewHolder viewHolder = new ViewHolder(mActivity, gridItem, currentSilencedApplication);
 
         try {
-            PackageManager packageManager = context.getPackageManager();
+            PackageManager packageManager = mContext.getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(currentSilencedApplication.getPackageName(),0);
             String packageLabel = packageInfo.applicationInfo.loadLabel(packageManager).toString();
             Drawable packageIcon = packageInfo.applicationInfo.loadIcon(packageManager);
 
-            viewHolder.silencedApplicationNameView.setText(packageLabel);
-            viewHolder.silencedApplicationIconView.setImageDrawable(packageIcon);
-            viewHolder.silencedApplicationSilencedUntilView.setText(SilenceApplicationHelper.getTimeSecondsReadable(currentSilencedApplication.getSilenceUntil()));
+            viewHolder.name.setText(packageLabel);
+            viewHolder.icon.setImageDrawable(packageIcon);
+            viewHolder.silencedUntil.setText(SilenceApplicationHelper.getTimeSecondsReadable(currentSilencedApplication.getSilenceUntil()));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -67,37 +59,24 @@ public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPrefer
     }
 
     static class ViewHolder {
+        ImageView close;
+        ImageView icon;
+        TextView name;
+        TextView silencedUntil;
+        private SilencedApplicationsFragment mActivity;
 
-        @BindView(R.id.item_silenced_app_close)
-        ImageView silencedApplicationCloseView;
-        @BindView(R.id.item_silenced_app_icon)
-        ImageView silencedApplicationIconView;
-        @BindView(R.id.item_silenced_app_appname)
-        TextView silencedApplicationNameView;
-        @BindView(R.id.item_silenced_app_silenced_until)
-        TextView silencedApplicationSilencedUntilView;
+        public ViewHolder(SilencedApplicationsFragment activity, View view, NotificationPreferencesEntity silencedApplication) {
+            this.mActivity = activity;
+            close = view.findViewById(R.id.item_silenced_app_close);
+            icon = view.findViewById(R.id.item_silenced_app_icon);
+            name = view.findViewById(R.id.item_silenced_app_appname);
+            silencedUntil = view.findViewById(R.id.item_silenced_app_silenced_until);
 
-
-        private Bridge silencedApplicationBridge;
-        private NotificationPreferencesEntity silencedApplication;
-        private Context context;
-
-        public ViewHolder(Bridge silencedApplicationBridge, NotificationPreferencesEntity silencedApplication, Context context) {
-            this.silencedApplicationBridge = silencedApplicationBridge;
-            this.silencedApplication = silencedApplication;
-            this.context = context;
+            icon.setOnClickListener(v -> {
+                Logger.debug("SilencedApplicationsAdapter onClick: cancel silence of package " + silencedApplication.getPackageName());
+                SilenceApplicationHelper.cancelSilence(silencedApplication.getPackageName());
+                mActivity.updateSilencedApps();
+            });
         }
-
-        @OnClick(R.id.item_silenced_app_icon)
-        public void onIconClick() {
-            Logger.debug("SilencedApplicationsAdapter onClick: cancel silence of package " + silencedApplication.getPackageName());
-            SilenceApplicationHelper.cancelSilence(silencedApplication.getPackageName());
-            silencedApplicationBridge.onSilencedApplicationStatusChange();
-        }
-    }
-
-    public interface Bridge {
-        void onSilencedApplicationStatusChange();
-        Context getContext();
     }
 }

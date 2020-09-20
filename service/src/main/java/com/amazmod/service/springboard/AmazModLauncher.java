@@ -101,9 +101,10 @@ public class AmazModLauncher extends AbstractPlugin {
     private static final String MANAGE_FILES = "File Manager";
     private static final String MENU_ENTRY = "MENU ENTRY";
     private static final String[] HIDDEN_APPS = {   "amazmod",
-                                                    "watchdroid",
                                                     "touchone",
-                                                    "watchface"};
+                                                    "watchface",
+                                                    "amazDigitalCyan",
+                                                    "keyboardt9"};
 
 
     private String[] mItems = { "WiFiToggle",
@@ -522,12 +523,10 @@ public class AmazModLauncher extends AbstractPlugin {
     private boolean isHiddenApp(String packageName) {
 
         boolean result = false;
-        if (StringUtils.indexOfAny(packageName, HIDDEN_APPS) >= 0)
+        if (StringUtils.indexOfAny(packageName, HIDDEN_APPS) >= 0
+                || hiddenAppsList.contains(packageName)
+                || mContext.getPackageManager().getLaunchIntentForPackage(packageName) == null)
             result = true;
-        else {
-            if (hiddenAppsList.contains(packageName))
-                result = true;
-        }
 
         Logger.info("AmazModLauncher isHiddenApp packageName: " + packageName + " \\ result: " + result);
         return result;
@@ -620,7 +619,7 @@ public class AmazModLauncher extends AbstractPlugin {
         if (name.equals("App Manager")){
             name = mContext.getResources().getString(R.string.app_manager);
         }
-        Toast.makeText(mContext, mContext.getResources().getString(R.string.opening)+" "+ name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.opening)+ " " + name, Toast.LENGTH_SHORT).show();
 
         if (MANAGE_APPS.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
@@ -656,7 +655,7 @@ public class AmazModLauncher extends AbstractPlugin {
             Collections.sort(hiddenAppsList);
             String pref = new Gson().toJson(hiddenAppsList);
             widgetSettings.set(Constants.PREF_HIDDEN_APPS, pref);
-            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() +" "+ mContext.getResources().getString(R.string.hidden), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() + " " + mContext.getResources().getString(R.string.hidden), Toast.LENGTH_SHORT).show();
             //refreshList();
             appInfoList.remove(itemChosen);
             mAdapter.notifyDataSetChanged();

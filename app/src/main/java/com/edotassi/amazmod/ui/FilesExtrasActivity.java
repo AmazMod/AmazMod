@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.ActivityFilesExtrasBinding;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
@@ -44,32 +43,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FilesExtrasActivity extends BaseAppCompatActivity {
-
-    @BindView(R.id.activity_files_main_container)
-    View filesMainContainer;
-    @BindView(R.id.activity_files_progress)
-    MaterialProgressBar materialProgressBar;
-    @BindView(R.id.activity_files_permission)
-    TextView filesPermission;
-    @BindView(R.id.activity_files_date_last_backup)
-    TextView filesDateLastBackup;
-    @BindView(R.id.activity_files_file)
-    TextView file;
-    @BindView(R.id.activity_files_obs)
-    TextView filesOBS;
-
-    @BindView(R.id.activity_files_backup)
-    Button backupButton;
-    @BindView(R.id.activity_files_restore)
-    Button restoreButton;
 
     private String ENABLED;
     private String DISABLED;
@@ -86,6 +62,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     private boolean useDownloads = false;
     private boolean useFiles = false;
 
+    private ActivityFilesExtrasBinding binding;
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -95,19 +73,11 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_files_extras);
+        binding = ActivityFilesExtrasBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Logger.trace("FilesExtrasActivity onCreate");
-
-        try {
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException exception) {
-            //TODO log to crashlitics
-            Logger.error("FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
-        }
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.activity_files_extras);
-        ButterKnife.bind(this);
 
         this.ENABLED = getResources().getString(R.string.enabled);
         this.DISABLED = getResources().getString(R.string.disabled);
@@ -121,7 +91,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Snackbar
-                    .make(filesMainContainer, R.string.no_storage_permission, Snackbar.LENGTH_LONG)
+                    .make(binding.activityFilesMainContainer, R.string.no_storage_permission, Snackbar.LENGTH_LONG)
                     .setAction(R.string.grant, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -130,6 +100,18 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
                     })
                     .show();
         }
+
+        binding.activityFilesBackup.setOnClickListener(v -> {
+            save();
+        });
+
+        binding.activityFilesRestore.setOnClickListener(v -> {
+            load();
+        });
+
+        binding.activityFilesPermission.setOnClickListener(v -> {
+            openPermissions();
+        });
     }
 
     @Override
@@ -139,21 +121,6 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         updateData();
     }
 
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.activity_files_backup)
-    public void backup() {
-        save();
-    }
-
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.activity_files_restore)
-    public void restore() {
-        load();
-
-    }
-
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.activity_files_permission)
     public void openPermissions() {
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
@@ -167,36 +134,36 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
         String obsText = "";
 
-        materialProgressBar.setVisibility(View.VISIBLE);
-        filesMainContainer.setVisibility(View.GONE);
+        binding.activityFilesProgress.setVisibility(View.VISIBLE);
+        binding.activityFilesMainContainer.setVisibility(View.GONE);
 
         if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            filesPermission.setText(this.ENABLED.toUpperCase());
-            filesPermission.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+            binding.activityFilesPermission.setText(this.ENABLED.toUpperCase());
+            binding.activityFilesPermission.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         } else {
-            filesPermission.setText(this.DISABLED.toUpperCase());
-            filesPermission.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+            binding.activityFilesPermission.setText(this.DISABLED.toUpperCase());
+            binding.activityFilesPermission.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         }
 
         final String timeLastSave = Prefs.getString(Constants.PREF_TIME_LAST_SAVE, "null");
         if (timeLastSave.equals("null")) {
-            filesDateLastBackup.setText(this.NEVER.toUpperCase());
+            binding.activityFilesDateLastBackup.setText(this.NEVER.toUpperCase());
         } else {
-            filesDateLastBackup.setText(timeLastSave);
+            binding.activityFilesDateLastBackup.setText(timeLastSave);
         }
 
         if (checkBackupFile()) {
             if (useFiles) {
-                file.setText(this.DATA.toUpperCase());
-                file.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+                binding.activityFilesFile.setText(this.DATA.toUpperCase());
+                binding.activityFilesFile.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             } else if (useDownloads) {
-                file.setText(this.DOWNLOADS.toUpperCase());
-                file.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+                binding.activityFilesFile.setText(this.DOWNLOADS.toUpperCase());
+                binding.activityFilesFile.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             }
 
         } else {
-            file.setText(this.NONE.toUpperCase());
-            file.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+            binding.activityFilesFile.setText(this.NONE.toUpperCase());
+            binding.activityFilesFile.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         }
 
         if (checkWriteDirectory()) {
@@ -209,10 +176,10 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
             obsText = getResources().getString(R.string.activity_files_backup_error);
         }
 
-        filesOBS.setText(obsText);
+        binding.activityFilesObs.setText(obsText);
 
-        materialProgressBar.setVisibility(View.GONE);
-        filesMainContainer.setVisibility(View.VISIBLE);
+        binding.activityFilesProgress.setVisibility(View.GONE);
+        binding.activityFilesMainContainer.setVisibility(View.VISIBLE);
 
     }
 

@@ -2,6 +2,7 @@ package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -67,7 +68,7 @@ public class NotificationJobService extends JobService implements TransportServi
          */
 
         if (uuid == null) {
-            Logger.error("onStartJob error: null uuid!");
+            Logger.debug("onStartJob error: null uuid!"); //Not needed to be show as error
             return true;
         }
 
@@ -149,6 +150,12 @@ public class NotificationJobService extends JobService implements TransportServi
 
         DataBundle dataBundle = NotificationStore.getStandardNotification(uuid);
 
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
+
         // Check if transporter is connected
         if (TransportService.isTransporterHuamiConnected()) {
             Logger.info("processStandardNotificationPosted transport already connected");
@@ -201,6 +208,7 @@ public class NotificationJobService extends JobService implements TransportServi
     public void processNotificationRemoved(final String uuid) {
 
         boolean isNotificationQueued = false;
+        if(NotificationStore.UUIDmap == null) return;
         String key = NotificationStore.UUIDmap.get(uuid);
         Logger.debug("uuid: {} key: {}", uuid, key);
 
@@ -259,6 +267,12 @@ public class NotificationJobService extends JobService implements TransportServi
 
         DataBundle dataBundle = NotificationStore.getRemovedNotification(uuid);
 
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
+
         if (TransportService.isTransporterHuamiConnected()) {
             Logger.info("processNotificationRemoved transport already connected");
             AmazModApplication.setWatchConnected(true);
@@ -304,6 +318,12 @@ public class NotificationJobService extends JobService implements TransportServi
 
     private void processCustomNotificationPosted(final String uuid) {
         Logger.debug("processCustomNotificationPosted uuid: " + uuid);
+
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
 
         // Check transporter
         if (!TransportService.isTransporterNotificationsConnected()) {

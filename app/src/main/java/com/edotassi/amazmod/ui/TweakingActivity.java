@@ -14,11 +14,7 @@ import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +24,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.ActivityTweakingBinding;
 import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultShellCommand;
@@ -61,39 +58,21 @@ import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.FileUploadData;
 import amazmod.com.transport.data.ResultShellCommandData;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
 
 import static android.graphics.Bitmap.CompressFormat.PNG;
 
-public class TweakingActivity extends BaseAppCompatActivity implements Transporter.DataListener{
-
-    @BindView(R.id.activity_tweaking_seekbar)
-    SeekBar brightnessSeekbar;
-
-    @BindView(R.id.activity_tweaking_exec_command)
-    EditText commandEditText;
-
-    @BindView(R.id.activity_tweaking_brightness_value)
-    EditText brightnessEditText;
-
-    @BindView(R.id.activity_tweaking_shell_result_code)
-    TextView shellResultCodeTextView;
-
-    @BindView(R.id.activity_tweaking_shell_result)
-    TextView shellResultEditText;
-
-    @BindView(R.id.activity_tweaking_button_update_brightness)
-    Button updateBrightnessButton;
-
-    @BindView(R.id.activity_tweaking_switcht_auto_brightness)
-    Switch autoBrightnessSwitch;
-
+public class TweakingActivity extends BaseAppCompatActivity implements Transporter.DataListener {
+    public final static int REQ_CODE_COMMAND_HISTORY = 100;
+    String SSID = "huami-amazfit-amazmod-4E68";
+    String pswd = "12345678";
+    String defaultFTPip = "192.168.43.1";
+    String defaultPort = "5210";
+    String TAG = "Tweak-menu-FTP: ";
     private SnackProgressBarManager snackProgressBarManager;
     private Context mContext;
     private Transporter ftpTransporter;
+    private ActivityTweakingBinding binding;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -111,18 +90,17 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             setTheme(R.style.AppTheme);
         }
 
+
         mContext = this;
-        setContentView(R.layout.activity_tweaking);
+        binding = ActivityTweakingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.tweaking);
         } catch (NullPointerException ex) {
             Logger.error(ex, "TweakingActivity onCreate exception: {}", ex.getMessage());
-            //TODO log to crashlitics
         }
-
-        ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
                 .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
@@ -142,10 +120,10 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                     }
                 });
 
-        brightnessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.activityTweakingSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
-                brightnessEditText.setText(String.valueOf(seekBar.getProgress()));
+                binding.activityTweakingBrightnessValue.setText(String.valueOf(seekBar.getProgress()));
             }
 
             @Override
@@ -159,27 +137,103 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             }
         });
         boolean autoBrightness = (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-        if(Screen.isStratos3()) {
-            autoBrightnessSwitch.setChecked(false);
-            autoBrightnessSwitch.setEnabled(false);
-            brightnessSeekbar.setEnabled(true);
-            brightnessEditText.setEnabled(true);
-            updateBrightnessButton.setEnabled(true);
+        if (Screen.isStratos3()) {
+            binding.activityTweakingSwitchtAutoBrightness.setChecked(false);
+            binding.activityTweakingSwitchtAutoBrightness.setEnabled(false);
+            binding.activityTweakingSeekbar.setEnabled(true);
+            binding.activityTweakingBrightnessValue.setEnabled(true);
+            binding.activityTweakingButtonUpdateBrightness.setEnabled(true);
         } else {
-            autoBrightnessSwitch.setChecked(autoBrightness);
-            brightnessSeekbar.setEnabled(!autoBrightness);
-            brightnessEditText.setEnabled(!autoBrightness);
-            updateBrightnessButton.setEnabled(!autoBrightness);
+            binding.activityTweakingSwitchtAutoBrightness.setChecked(autoBrightness);
+            binding.activityTweakingSeekbar.setEnabled(!autoBrightness);
+            binding.activityTweakingBrightnessValue.setEnabled(!autoBrightness);
+            binding.activityTweakingButtonUpdateBrightness.setEnabled(!autoBrightness);
         }
-        brightnessSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
+        binding.activityTweakingSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
 
         EventBus.getDefault().register(this);
 
         // Set up FTP transporter listener
         ftpTransporter = Transporter.get(this, "com.huami.wififtp");
         ftpTransporter.addDataListener(this);
-        if(!ftpTransporter.isTransportServiceConnected())
+        if (!ftpTransporter.isTransportServiceConnected())
             ftpTransporter.connectTransportService();
+
+        binding.activityTweakingWatchLocalIp.setOnClickListener(v -> {
+            getWatchLocalIP();
+        });
+
+        binding.activityTweakingSwitchtAutoBrightness.setOnClickListener(v -> {
+            changeAutoBrightness();
+        });
+
+        binding.activityTweakingReboot.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getReboot(), false);
+        });
+
+        binding.activityTweakingRestartLauncher.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher(), false);
+        });
+
+        binding.activityTweakingEnableAppsList.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getEnableAppsList());
+        });
+
+        binding.activityTweakingDisableAppsList.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getDisableAppsList());
+        });
+
+        binding.activityTweakingRebootBootloader.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getRebootBootloader(), false);
+        });
+
+        binding.activityTweakingSetAdmin.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getDPM());
+        });
+
+        binding.activityTweakingScreenshot.setOnClickListener(v -> {
+            execCommandInternally(ShellCommandHelper.getScreenshot());
+        });
+
+        binding.activityTweakingButtonUpdateBrightness.setOnClickListener(v -> {
+            updateBrightness();
+        });
+
+        binding.activityTweakingEnableLpm.setOnClickListener(v -> {
+            enableLpm();
+        });
+
+        binding.activityTweakingRevokeAdmin.setOnClickListener(v -> {
+            revokeAdminOwner();
+        });
+
+        binding.activityTweakingClearAdb.setOnClickListener(v -> {
+            clearAdb();
+        });
+
+        binding.activityTweakingExecCommandRun.setOnClickListener(v -> {
+            execCommand();
+        });
+
+        binding.activityTweakingCommandHistory.setOnClickListener(v -> {
+            loadCommandHistory();
+        });
+
+        binding.activityTweakingWifiApOn.setOnClickListener(v -> {
+            wifi_ftp_toggle(1, 3);
+        });
+
+        binding.activityTweakingWifiApOff.setOnClickListener(v -> {
+            wifi_ftp_toggle(0, 3);
+        });
+
+        binding.activityTweakingFtpOn.setOnClickListener(v -> {
+            wifi_ftp_toggle(3, 1);
+        });
+
+        binding.activityTweakingFtpOff.setOnClickListener(v -> {
+            wifi_ftp_toggle(3, 0);
+        });
     }
 
     @Override
@@ -187,7 +241,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         EventBus.getDefault().unregister(this);
 
         Logger.debug("FTP: disconnect transporter");
-        if(ftpTransporter.isTransportServiceConnected()) {
+        if (ftpTransporter.isTransportServiceConnected()) {
             ftpTransporter.removeDataListener(this);
             ftpTransporter.disconnectTransportService();
             Logger.debug("FTP: transporter disconnected");
@@ -207,21 +261,19 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         }
     }
 
-    @OnClick(R.id.activity_tweaking_switcht_auto_brightness)
-    public void changeAutoBrightness() {
-        boolean autoBrightness = autoBrightnessSwitch.isChecked();
-        brightnessSeekbar.setEnabled(!autoBrightness);
-        brightnessEditText.setEnabled(!autoBrightness);
-        updateBrightnessButton.setEnabled(!autoBrightness);
-        if (autoBrightness){
+    private void changeAutoBrightness() {
+        boolean autoBrightness = binding.activityTweakingSwitchtAutoBrightness.isChecked();
+        binding.activityTweakingSeekbar.setEnabled(!autoBrightness);
+        binding.activityTweakingBrightnessValue.setEnabled(!autoBrightness);
+        binding.activityTweakingButtonUpdateBrightness.setEnabled(!autoBrightness);
+        if (autoBrightness) {
             updateBrightness(Constants.SCREEN_BRIGHTNESS_VALUE_AUTO);
         }
     }
 
-    @OnClick(R.id.activity_tweaking_button_update_brightness)
-    public void updateBrightness() {
+    private void updateBrightness() {
         try {
-            String textValue = brightnessEditText.getText().toString();
+            String textValue = binding.activityTweakingBrightnessValue.getText().toString();
             int value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
@@ -242,48 +294,6 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         }
     }
 
-    @OnClick(R.id.activity_tweaking_reboot)
-    public void reboot() {
-        execCommandInternally(ShellCommandHelper.getReboot(),false);
-
-    }
-
-    @OnClick(R.id.activity_tweaking_restart_launcher)
-    public void restartLauncher() {
-        execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher(),false);
-
-    }
-
-    @OnClick(R.id.activity_tweaking_enable_apps_list)
-    public void enableAppsList() {
-        execCommandInternally(ShellCommandHelper.getEnableAppsList());
-    }
-
-    @OnClick(R.id.activity_tweaking_disable_apps_list)
-    public void disableAppList() {
-        execCommandInternally(ShellCommandHelper.getDisableAppsList());
-
-    }
-
-    @OnClick(R.id.activity_tweaking_reboot_bootloader)
-    public void rebootBootloader() {
-        execCommandInternally(ShellCommandHelper.getRebootBootloader(),false);
-
-    }
-
-    @OnClick(R.id.activity_tweaking_set_admin)
-    public void setAdmin() {
-        execCommandInternally(ShellCommandHelper.getDPM());
-
-    }
-
-    @OnClick(R.id.activity_tweaking_screenshot)
-    public void screenshot() {
-        execCommandInternally(ShellCommandHelper.getScreenshot());
-
-    }
-
-    @OnClick(R.id.activity_tweaking_enable_lpm)
     public void enableLpm() {
         new MaterialDialog.Builder(this)
                 .title(R.string.enable_low_power)
@@ -334,7 +344,6 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 .show();
     }
 
-    @OnClick(R.id.activity_tweaking_revoke_admin)
     public void revokeAdminOwner() {
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
@@ -366,14 +375,12 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 });
     }
 
-    @OnClick(R.id.activity_tweaking_clear_adb)
-    public void clearAdb() {
+    private void clearAdb() {
         execCommandInternally(ShellCommandHelper.getClearAdb());
         snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.adb_clear_command_sent)), SnackProgressBarManager.LENGTH_LONG);
     }
 
-    @OnClick(R.id.activity_tweaking_exec_command_run)
-    public void execCommand() {
+    private void execCommand() {
         try {
             View view = this.getCurrentFocus();
             if (view != null) {
@@ -384,15 +391,12 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             Logger.error(ex);
         }
 
-        String command = commandEditText.getText().toString();
+        String command = binding.activityTweakingExecCommand.getText().toString();
         execCommandInternally(command);
         FilesExtrasActivity.saveCommandToHistory(command);
 
     }
 
-    public final static int REQ_CODE_COMMAND_HISTORY = 100;
-
-    @OnClick(R.id.activity_tweaking_command_history)
     public void loadCommandHistory() {
         Intent child = new Intent(this, CommandHistoryActivity.class);
         startActivityForResult(child, REQ_CODE_COMMAND_HISTORY);
@@ -402,7 +406,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         if (requestCode == REQ_CODE_COMMAND_HISTORY) {
             try {
                 String command = data.getExtras().getString("COMMAND");
-                commandEditText.setText(command);
+                binding.activityTweakingExecCommand.setText(command);
             } catch (NullPointerException e) {
                 Logger.error("Returned from CommandHistoryActivity without selecting any command");
             }
@@ -411,7 +415,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
     }
 
     private void execCommandInternally(String command) {
-        execCommandInternally(command,true);
+        execCommandInternally(command, true);
     }
 
     private void execCommandInternally(String command, boolean wait) {
@@ -439,21 +443,21 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                         ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
 
                         if (resultShellCommandData.getResult() == 0) {
-                            shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
-                            shellResultEditText.setText(resultShellCommandData.getOutputLog());
+                            binding.activityTweakingShellResultCode.setText(String.valueOf(resultShellCommandData.getResult()));
+                            binding.activityTweakingShellResult.setText(resultShellCommandData.getOutputLog());
                             snackBarText = "success";
 
                         } else {
-                            shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
-                            shellResultEditText.setText(String.format("%s\n%s", resultShellCommandData.getOutputLog(), resultShellCommandData.getErrorLog()));
+                            binding.activityTweakingShellResultCode.setText(String.valueOf(resultShellCommandData.getResult()));
+                            binding.activityTweakingShellResult.setText(String.format("%s\n%s", resultShellCommandData.getOutputLog(), resultShellCommandData.getErrorLog()));
                             snackBarText = getString(R.string.shell_command_failed);
                         }
                     } else
                         snackBarText = getString(R.string.shell_command_failed);
 
                 } else {
-                    shellResultCodeTextView.setText("");
-                    shellResultEditText.setText("");
+                    binding.activityTweakingShellResultCode.setText("");
+                    binding.activityTweakingShellResult.setText("");
                     snackBarText = getString(R.string.cant_send_shell_command);
                 }
 
@@ -470,7 +474,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
     private void updateBrightness(final int value) {
         BrightnessData brightnessData = new BrightnessData();
         brightnessData.setLevel(value);
-        brightnessSeekbar.setProgress(value);
+        binding.activityTweakingSeekbar.setProgress(value);
 
         Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
             @Override
@@ -521,26 +525,26 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
 
         Watch.get().downloadFile(this, fileUploadData.getPath(), fileUploadData.getName(), size, Constants.MODE_SCREENSHOT,
                 new Watch.OperationProgress() {
-            @Override
-            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                TweakingActivity.this.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        String remaingSize = Formatter.formatShortFileSize(TweakingActivity.this, size - byteSent);
-                        double kbSent = byteSent / 1024d;
-                        double speed = kbSent / (duration / 1000);
-                        DecimalFormat df = new DecimalFormat("#.00");
+                    public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                        TweakingActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String remaingSize = Formatter.formatShortFileSize(TweakingActivity.this, size - byteSent);
+                                double kbSent = byteSent / 1024d;
+                                double speed = kbSent / (duration / 1000);
+                                DecimalFormat df = new DecimalFormat("#.00");
 
-                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                                String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                                String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                        progressBar.setMessage(message);
-                        snackProgressBarManager.setProgress((int) progress);
-                        snackProgressBarManager.updateTo(progressBar);
+                                progressBar.setMessage(message);
+                                snackProgressBarManager.setProgress((int) progress);
+                                snackProgressBarManager.updateTo(progressBar);
+                            }
+                        });
                     }
-                });
-            }
-        }, cancellationTokenSource.getToken())
+                }, cancellationTokenSource.getToken())
                 .continueWith(new Continuation<Void, Object>() {
                     @Override
                     public Object then(@NonNull Task<Void> task) {
@@ -563,20 +567,20 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                                 if (drawable != null) {
 
                                     // Rotate and re-save image on Verge
-                                    if(Screen.isVerge()){
+                                    if (Screen.isVerge()) {
                                         // Rotate
-                                        drawable = FilesUtil.getRotateDrawable(drawable,180f);
+                                        drawable = FilesUtil.getRotateDrawable(drawable, 180f);
                                         // Re-Save (reopen because drawable is bad quality)
                                         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
-                                        BitmapFactory.Options options=new BitmapFactory.Options();
-                                        options.inDensity=dm.densityDpi;
-                                        options.inScreenDensity=dm.densityDpi;
-                                        options.inTargetDensity=dm.densityDpi;
-                                        Bitmap bmp = BitmapFactory.decodeFile(screenshot.getAbsolutePath(),options);
+                                        BitmapFactory.Options options = new BitmapFactory.Options();
+                                        options.inDensity = dm.densityDpi;
+                                        options.inScreenDensity = dm.densityDpi;
+                                        options.inTargetDensity = dm.densityDpi;
+                                        Bitmap bmp = BitmapFactory.decodeFile(screenshot.getAbsolutePath(), options);
                                         Matrix matrix = new Matrix();
                                         matrix.postRotate(180);
                                         Bitmap rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-                                        if(!FilesUtil.saveBitmapToFile(screenshot,rotatedBitmap, PNG, 100))
+                                        if (!FilesUtil.saveBitmapToFile(screenshot, rotatedBitmap, PNG, 100))
                                             Logger.error("Verge's screenshot could not be saved after rotation");
                                     }
 
@@ -591,8 +595,8 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     final Intent intent = new Intent(Intent.ACTION_VIEW)//
                                                             .setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
-                                                                            FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
-                                                                            : Uri.fromFile(screenshot), "image/*")
+                                                                    FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
+                                                                    : Uri.fromFile(screenshot), "image/*")
                                                             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                                                     startActivity(intent);
@@ -630,38 +634,14 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 });
     }
 
-    @OnClick(R.id.activity_tweaking_wifi_ap_on)
-    public void enable_wifi_ftp() {
-        wifi_ftp_toggle(1, 3);
-    }
-
-    @OnClick(R.id.activity_tweaking_wifi_ap_off)
-    public void disable_wifi_ftp() {
-        wifi_ftp_toggle(0, 3);
-    }
-
-    @OnClick(R.id.activity_tweaking_ftp_on)
-    public void enable_ftp() {
-        wifi_ftp_toggle(3, 1);
-    }
-
-    @OnClick(R.id.activity_tweaking_ftp_off)
-    public void disable_ftp() {
-        wifi_ftp_toggle(3, 0);
-    }
-
-    String SSID = "huami-amazfit-amazmod-4E68";
-    String pswd = "12345678";
-    String defaultFTPip = "192.168.43.1";
-    String defaultPort = "5210";
     public void wifi_ftp_toggle(int wifi, int ftp) {
         // 0: off, 1: on, 3: do nothing
         String message = getString(R.string.error);
-        if(ftpTransporter.isTransportServiceConnected()) {
+        if (ftpTransporter.isTransportServiceConnected()) {
             // Toggle WiFi AP
-            if(wifi == 0)
+            if (wifi == 0)
                 ftpTransporter.send("disable_ap");
-            else if(wifi == 1){
+            else if (wifi == 1) {
                 ftpTransporter.send("start_service");
                 DataBundle dataBundle = new DataBundle();
                 dataBundle.putInt("key_keymgmt", 4); // WPA2
@@ -671,19 +651,18 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 ftpTransporter.send("enable_ap", dataBundle);
             }
             // Toggle FTP
-            if(ftp == 0)
+            if (ftp == 0)
                 ftpTransporter.send("disable_ftp");
-            else if(ftp == 1)
+            else if (ftp == 1)
                 ftpTransporter.send("enable_ftp");
 
             // Toast message
-            message = ( (wifi<3) ? ( (wifi==0) ? getString(R.string.wifi_ap_dissabling) : getString(R.string.wifi_ap_enabling) ) + ((ftp<3)?"\n":"") : "" ) + ((ftp<3)? ( (ftp==0) ? getString(R.string.ftp_dissabling) : getString(R.string.ftp_enabling) ) :"");
+            message = ((wifi < 3) ? ((wifi == 0) ? getString(R.string.wifi_ap_dissabling) : getString(R.string.wifi_ap_enabling)) + ((ftp < 3) ? "\n" : "") : "") + ((ftp < 3) ? ((ftp == 0) ? getString(R.string.ftp_dissabling) : getString(R.string.ftp_enabling)) : "");
         }
         // Message
         snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, message), SnackProgressBarManager.LENGTH_LONG);
     }
 
-    String TAG = "Tweak-menu-FTP: ";
     public void onDataReceived(TransportDataItem item) {
         // Transmitted action
         String action = item.getAction();
@@ -694,63 +673,63 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         if (data != null)
             key_new_state = data.getInt("key_new_state");
         else {
-            Logger.debug(TAG+"transporter action: "+action+" (without key_new_state)");
+            Logger.debug(TAG + "transporter action: " + action + " (without key_new_state)");
             return;
         }
 
         if ("on_ap_state_changed".equals(action)) {
             // Watch WiFi AP status changed
-            if (key_new_state != 13 ){
-                if(data.getInt("key_new_state") == 11) {
+            if (key_new_state != 13) {
+                if (data.getInt("key_new_state") == 11) {
                     Logger.debug(TAG + "watch's WiFi AP disabled");
                     snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, "WiFi Access Point " + getString(R.string.disabled)), SnackProgressBarManager.LENGTH_SHORT);
-                }else
-                    Logger.debug(TAG+"on_ap_state_changed: " + key_new_state);
+                } else
+                    Logger.debug(TAG + "on_ap_state_changed: " + key_new_state);
                 return;
             }
 
             // (State 13 watch WiFi AP is on)
-            Logger.debug(TAG+"watch's WiFi AP is enabled");
+            Logger.debug(TAG + "watch's WiFi AP is enabled");
             // WiFi AP enabled.
-            snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, "WiFi    : "+SSID+"\nPassword: "+pswd)
+            snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, "WiFi    : " + SSID + "\nPassword: " + pswd)
                     .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                @Override
-                public void onActionClick() {
-                    snackProgressBarManager.dismissAll();
-                }
-            }), SnackProgressBarManager.LENGTH_INDEFINITE);
+                        @Override
+                        public void onActionClick() {
+                            snackProgressBarManager.dismissAll();
+                        }
+                    }), SnackProgressBarManager.LENGTH_INDEFINITE);
         } else if ("ftp_on_state_changed".equals(action)) {
-            if (key_new_state != 2 ){
-                if(key_new_state == 1) {
+            if (key_new_state != 2) {
+                if (key_new_state == 1) {
                     Logger.debug(TAG + "FTP server disabled");
                     snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, "FTP server " + getString(R.string.disabled)), SnackProgressBarManager.LENGTH_SHORT);
-                }else
-                    Logger.debug(TAG+"ftp_on_state_changed: "+ key_new_state);
+                } else
+                    Logger.debug(TAG + "ftp_on_state_changed: " + key_new_state);
 
                 return;
             }
 
             // FTP enabled
-            Logger.debug(TAG+"FTP server enabled.");
+            Logger.debug(TAG + "FTP server enabled.");
             getWatchLocalIP(true);
 
-        }else if("on_ap_enable_result".equals(action)){
-            if(key_new_state == 1)
-                Logger.debug(TAG+"watch WiFi AP enabled successfully");
+        } else if ("on_ap_enable_result".equals(action)) {
+            if (key_new_state == 1)
+                Logger.debug(TAG + "watch WiFi AP enabled successfully");
             else
-                Logger.debug(TAG+"on_ap_enable_result (key_new_state = "+key_new_state+")");
-        }else{
-            Logger.debug(TAG+"transporter action: "+action+" (key_new_state = "+key_new_state+")");
+                Logger.debug(TAG + "on_ap_enable_result (key_new_state = " + key_new_state + ")");
+        } else {
+            Logger.debug(TAG + "transporter action: " + action + " (key_new_state = " + key_new_state + ")");
         }
     }
 
-    public void getWatchLocalIP(){
+    public void getWatchLocalIP() {
         getWatchLocalIP(false);
     }
 
-    public void getWatchLocalIP(boolean ftp){
+    public void getWatchLocalIP(boolean ftp) {
         // Get watch's local IP
-        Watch.get().sendSimpleData(Transport.LOCAL_IP,null).continueWith(new Continuation<OtherData, Object>() {
+        Watch.get().sendSimpleData(Transport.LOCAL_IP, null).continueWith(new Continuation<OtherData, Object>() {
             @Override
             public Object then(@NonNull Task<OtherData> task) {
                 String message = getString(R.string.error);
@@ -767,19 +746,19 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                             if (localIP.equals("N/A"))
                                 localIP = defaultFTPip;
                             localIP = localIP + ":" + defaultPort;
-                            message = "FTP server " + getString(R.string.enabled) + ".\n" + getString(R.string.local_ip)+": " + localIP;
-                        }else{
+                            message = "FTP server " + getString(R.string.enabled) + ".\n" + getString(R.string.local_ip) + ": " + localIP;
+                        } else {
                             if (localIP.equals("N/A"))
                                 message = getString(R.string.watch_no_wifi);
-                            else if(localIP.equals(defaultFTPip))
-                                message = getString(R.string.local_ip)+": " + localIP + " (localhost)";
+                            else if (localIP.equals(defaultFTPip))
+                                message = getString(R.string.local_ip) + ": " + localIP + " (localhost)";
                             else
-                                message = getString(R.string.local_ip)+": " + localIP;
+                                message = getString(R.string.local_ip) + ": " + localIP;
                         }
-                        Logger.debug(TAG+"watch local IP is " + localIP);
+                        Logger.debug(TAG + "watch local IP is " + localIP);
                         //Toast.makeText(mContext, "Watch's local IP is " + localIP, Toast.LENGTH_SHORT).show();
-                    }catch(Exception e){
-                        Logger.debug(TAG+"failed reading IP data: "+e);
+                    } catch (Exception e) {
+                        Logger.debug(TAG + "failed reading IP data: " + e);
                     }
                 } else {
                     Logger.error(task.getException(), "Task sendSimpleData action \"local_ip\" failed");
@@ -798,10 +777,5 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 return null;
             }
         });
-    }
-
-    @OnClick(R.id.activity_tweaking_watch_local_ip)
-    public void watch_local_IP() {
-        getWatchLocalIP();
     }
 }

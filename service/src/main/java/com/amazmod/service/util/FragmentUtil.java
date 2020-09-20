@@ -143,7 +143,9 @@ public class FragmentUtil {
 
     public void setFontLocale(TextView b, String locale) {
         // Logger.debug("[Notification Fragment] Testing element characters.");
-
+        if (locale == null) {
+            return;
+        }
         // Identify Hebrew language
         //String unicode_iw_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // Hebrew character pattern (With precomposed characters)
         //String unicode_ar_pattern = ".*[\u0600-\u06FF].*"; // Arabic character pattern
@@ -152,7 +154,7 @@ public class FragmentUtil {
 
         // Identify Hebrew or Arabic characters
         //if(locale.matches(unicode_iwar_pattern)){
-        if(p.matcher(locale).find()){
+        if (p.matcher(locale).find()) {
             Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
             Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);

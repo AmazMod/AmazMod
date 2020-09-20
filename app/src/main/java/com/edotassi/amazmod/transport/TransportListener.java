@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.SilenceApplication;
+import com.edotassi.amazmod.event.TakePicture;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
@@ -16,6 +17,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.tinylog.Logger;
+
+import java.io.IOException;
 
 import amazmod.com.transport.data.SilenceApplicationData;
 
@@ -74,6 +77,16 @@ public class TransportListener {
 
             KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY, 0);
             mAudioManager.dispatchMediaKeyEvent(upEvent);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void takePicture(TakePicture takePicture){
+        Logger.debug("Received take picture action!");
+        try {
+            Runtime.getRuntime().exec("input keyevent " + KeyEvent.KEYCODE_VOLUME_UP);
+        } catch (IOException e) {
+            Logger.error(e);
         }
     }
 }

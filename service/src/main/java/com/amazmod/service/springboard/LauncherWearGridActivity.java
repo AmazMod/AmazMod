@@ -16,6 +16,7 @@ import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
+import com.amazmod.service.ui.fragments.WearCameraFragment;
 import com.amazmod.service.ui.fragments.WearFilesFragment;
 import com.amazmod.service.ui.fragments.WearFlashlightFragment;
 import com.amazmod.service.ui.fragments.WearInfoFragment;
@@ -37,6 +38,7 @@ public class LauncherWearGridActivity extends Activity {
     BoxInsetLayout rootLayout;
 
     public static final String MODE = "mode";
+    public static final char CAMERA = 'C';
     public static final char APPS = 'A';
     public static final char SETTINGS = 'S';
     public static final char INFO = 'I';
@@ -135,6 +137,10 @@ public class LauncherWearGridActivity extends Activity {
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
         switch (mode) {
+
+            case CAMERA:
+                fragList.add(WearCameraFragment.newInstance());
+                break;
 
             case APPS:
                 fragList.add(WearAppsFragment.newInstance());

@@ -25,8 +25,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.DonorsActivity"></activity>
-        <activity android:name=".ui.DonationActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:configChanges="orientation|screenSize"
@@ -238,6 +236,24 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
 
                 <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".sleep.broadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.urbandroid.sleep.watch.START_TRACKING" />
+                <action android:name="com.urbandroid.sleep.watch.STOP_TRACKING" />
+                <action android:name="com.urbandroid.sleep.watch.SET_PAUSE" />
+                <action android:name="com.urbandroid.sleep.watch.SET_SUSPENDED" />
+                <action android:name="com.urbandroid.sleep.watch.SET_BATCH_SIZE" />
+                <action android:name="com.urbandroid.sleep.watch.START_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.STOP_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.UPDATE_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.SHOW_NOTIFICATION" />
+                <action android:name="com.urbandroid.sleep.watch.HINT" />
+                <action android:name="com.urbandroid.sleep.watch.CHECK_CONNECTED" />
             </intent-filter>
         </receiver>
 

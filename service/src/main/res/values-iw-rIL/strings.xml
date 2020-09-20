@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">בינוני</string>
     <string name="uvindex_strong">חזק</string>
     <string name="uvindex_verystrong">חזק מאוד</string>
+    <string name="alarm">שעון מעורר</string>
+    <string name="alarm_snooze">נודניק</string>
+    <string name="alarm_dismiss">סגור</string>
+    <string name="camera_delay">השהייה</string>
+    <string name="camera_shutter">צילום תמונה</string>
 </resources>

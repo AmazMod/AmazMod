@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.ActivityFileOpenerBinding;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.support.ShellCommandHelper;
@@ -50,17 +51,10 @@ import java.util.concurrent.CancellationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FileOpenerActivity extends BaseAppCompatActivity {
-
-    @BindView(R.id.activity_file_opner_progress)
-    MaterialProgressBar watchProgress;
-    @BindView(R.id.isConnected)
-    TextView isConnected;
 
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -84,6 +78,8 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     private static String result = "";
     private static String resultString = "";
 
+    private ActivityFileOpenerBinding binding;
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -93,17 +89,10 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_opener);
-
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException exception) {
-            Logger.error("AboutActivity onCreate exception: " + exception.toString());
-            //TODO log to crashlitics
-        }
+        binding = ActivityFileOpenerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.file_uploader);
-
-        ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(this.findViewById(android.R.id.content))
                 .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
@@ -581,20 +570,20 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     }
 
     private void connected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
-        isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
-        watchProgress.setVisibility(View.GONE);
+        binding.isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+        binding.isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     private void disconnected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
-        isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
-        watchProgress.setVisibility(View.GONE);
+        binding.isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+        binding.isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     private void connecting() {
-        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
-        isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
-        watchProgress.setVisibility(View.VISIBLE);
+        binding.isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
+        binding.isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 }

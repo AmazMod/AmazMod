@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.FragmentWeatherCardBinding;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -25,11 +26,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class WeatherFragment extends Card {
-
+/*
     @BindView(R.id.card_weather_location)
     TextView location;
     @BindView(R.id.card_weather_coordinates)
@@ -58,22 +57,20 @@ public class WeatherFragment extends Card {
     ImageView weather_big_image;
     @BindView(R.id.card_weather)
     CardView card_weather;
-
+*/
     //private Context mContext;
+    private FragmentWeatherCardBinding binding;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //this.mContext = activity.getBaseContext();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_weather_card, container, false);
-
-        ButterKnife.bind(this, view);
-
+        binding = FragmentWeatherCardBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         return view;
     }
 
@@ -126,7 +123,7 @@ public class WeatherFragment extends Card {
         //Logger.debug("[Weather Card] JSON weather data: {}", last_saved_data);
 
         if( last_saved_data == null || last_saved_data.isEmpty() ) {
-            card_weather.setVisibility(View.GONE);
+            binding.cardWeather.setVisibility(View.GONE);
             return;
         }
 
@@ -136,38 +133,38 @@ public class WeatherFragment extends Card {
             JSONObject last_data = new JSONObject(last_saved_data);
 
             if (last_data.has("tempUnit"))
-                temperature_sign.setText("°"+last_data.getString("tempUnit"));
+                binding.cardWeatherTemperatureSign.setText("°"+last_data.getString("tempUnit"));
             if (last_data.has("actual_temp"))
-                temperature.setText(last_data.getString("actual_temp"));
+                binding.cardWeatherTemperature.setText(last_data.getString("actual_temp"));
             if (last_data.has("real_feel") && last_data.has("tempUnit"))
-                real_feel.setText(last_data.getString("real_feel")+"°"+last_data.getString("tempUnit"));
+                binding.cardWeatherRealFeelValue.setText(last_data.getString("real_feel")+"°"+last_data.getString("tempUnit"));
             if (last_data.has("sd")) // humidity
-                humidity.setText(last_data.getString("sd"));
+                binding.cardWeatherHumidityValue.setText(last_data.getString("sd"));
             if (last_data.has("pressure"))
-                pressure.setText(last_data.getString("pressure"));
+                binding.cardWeatherPressureValue.setText(last_data.getString("pressure"));
             if (last_data.has("weatherCode")){
-                weather_image.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
-                weather_big_image.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
+                binding.cardWeatherImage.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
+                binding.cardWeatherBigImage.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
             }
             if (last_data.has("weatherDescription"))
-                status.setText(FilesUtil.capitalise(last_data.getString("weatherDescription")));
+                binding.cardWeatherStatus.setText(FilesUtil.capitalise(last_data.getString("weatherDescription")));
             if (last_data.has("clouds"))
-                cloud.setText(last_data.getString("clouds"));
+                binding.cardWeatherCloudValue.setText(last_data.getString("clouds"));
             if (last_data.has("windStrength"))
-                wind.setText(last_data.getString("windStrength"));
+                binding.cardWeatherWindValue.setText(last_data.getString("windStrength"));
             if (last_data.has("city") && last_data.has("country"))
-                location.setText(last_data.getString("city") +", "+ last_data.getString("country"));
+                binding.cardWeatherLocation.setText(last_data.getString("city") +", "+ last_data.getString("country"));
             if (last_data.has("lon") && last_data.has("lat"))
-                coordinates.setText("("+last_data.getString("lat") +", "+ last_data.getString("lon")+")");
+                binding.cardWeatherCoordinates.setText("("+last_data.getString("lat") +", "+ last_data.getString("lon")+")");
         }catch (Exception e) {
             Logger.error("[Weather Card] JSON weather data failed: {}", e.getMessage());
-            card_weather.setVisibility(View.GONE);
+            binding.cardWeather.setVisibility(View.GONE);
             return;
         }
 
         // Write the last time data were taken
         Date lastDate = new Date(Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0L));
         SimpleDateFormat format = new SimpleDateFormat("EEEE H:mm", Locale.getDefault());
-        last_read.setText( format.format(lastDate) );
+        binding.cardWeatherLastRead.setText( format.format(lastDate) );
     }
 }

@@ -158,7 +158,7 @@
     <string name="watch_is_connected">Połączono</string>
     <string name="watch_disconnected">Rozłączono</string>
     <string name="watch_connecting">Łączenie…</string>
-    <string name="watch_connecting_no_service">Connecting without service…</string>
+    <string name="watch_connecting_no_service">Połączenie bez obsługi…</string>
     <string name="notifications_screen_timeout">Wygaszenie ekranu</string>
     <string name="pref_notifications_inverted_theme">Jasny motyw</string>
     <string name="pref_notifications_inverted_theme_summary">Włącz jasne tło przy ciemnym motywie tekstu.</string>
@@ -409,8 +409,8 @@
     <string name="batter_data_export">Eksport danych baterii</string>
     <string name="app_options">Ustawienia aplikacji</string>
     <string name="notification_options">Opcje powiadomień</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających tekst: \n(jeden na linię)</string>
+    <string name="whitelist_notification_options_description">Wyświetlaj powiadomienia zawierające tekst:\n(jeden na linię)</string>
     <string name="and">oraz</string>
     <plurals name="day">
         <item quantity="one">dzień</item>
@@ -436,8 +436,8 @@
     <string name="no_widgets_found">Nie znaleziono widżetów</string>
     <string name="intro_description_grant_access">Grant Access</string>
     <string name="intro_description_get_started">Get Started</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Filtrowanie:</string>
+    <string name="filter_level">Poziom filtra:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Dzienny przegląd (Kroki)</string>
     <string name="widget_countdown">Minutnik</string>
@@ -515,4 +515,5 @@
     <string name="searchpreference_search">Szukaj…</string>
     <string name="searchpreference_clear_history">Wyczyść historię</string>
     <string name="searchpreference_no_results">Brak wyników</string>
+    <string name="enable_sleep">Włącz Sleep As Android</string>
 </resources>

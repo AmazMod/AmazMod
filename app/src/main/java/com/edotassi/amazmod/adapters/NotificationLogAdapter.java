@@ -3,43 +3,35 @@ package com.edotassi.amazmod.adapters;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.RowNotificationLogBinding;
 import com.edotassi.amazmod.db.model.NotificationEntity;
-
+import com.edotassi.amazmod.ui.NotificationsLogActivity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
 
-    private Context context;
-
+    private NotificationsLogActivity mActivity;
+    private RowNotificationLogBinding binding;
     private Map<Integer, String> causesTranslationsMap;
     private Map<String, Drawable> appsIconsMap;
     private Drawable fallbackAppIcon;
 
-    public NotificationLogAdapter(@NonNull Context context, int resource, @NonNull List<NotificationEntity> objects) {
-        super(context, resource, objects);
-
-        this.context = context;
-
+    public NotificationLogAdapter(@NonNull NotificationsLogActivity activity, int resource, @NonNull List<NotificationEntity> objects) {
+        super(activity, resource, objects);
+        this.mActivity = activity;
         causesTranslationsMap = new ArrayMap<>();
         appsIconsMap = new ArrayMap<>();
 
@@ -61,56 +53,43 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             add(R.string.notification_silenced);
             add(R.string.notification_text_filter);
         }};
-
         for (Integer stringKey : causes) {
-            causesTranslationsMap.put(stringKey, context.getString(stringKey).toUpperCase());
+            causesTranslationsMap.put(stringKey, mActivity.getString(stringKey).toUpperCase());
         }
-
-        fallbackAppIcon = context.getDrawable(R.drawable.ic_launcher_foreground);
+        fallbackAppIcon = mActivity.getDrawable(R.drawable.ic_launcher_foreground);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        binding = RowNotificationLogBinding.inflate(mActivity.getLayoutInflater());
         View listItem = convertView;
         if (listItem == null) {
-            listItem = LayoutInflater.from(context).inflate(R.layout.row_notification_log, parent, false);
+            listItem = binding.getRoot();
         }
-
         NotificationEntity notificationEntity = getItem(position);
-
-        ViewHolder viewHolder = new ViewHolder(context, notificationEntity, causesTranslationsMap, appsIconsMap, fallbackAppIcon);
+        ViewHolder viewHolder = new ViewHolder(mActivity, binding, notificationEntity, causesTranslationsMap, appsIconsMap, fallbackAppIcon);
         viewHolder.sync(listItem);
 
         return listItem;
     }
 
     static class ViewHolder {
-
-        @BindView(R.id.row_notification_log_app_icon)
-        ImageView appIconImageView;
-
-        @BindView(R.id.row_notification_log_package)
-        TextView packageNameTextView;
-
-        @BindView(R.id.row_notification_log_cause)
-        TextView causeTextView;
-
-        @BindView(R.id.row_notification_log_date)
-        TextView dateTextView;
-
-        private Context context;
+        private Context mActivity;
+        private RowNotificationLogBinding binding;
         private NotificationEntity notificationEntity;
         private Map<Integer, String> causesTranslationsMap;
         private Map<String, Drawable> appsIconsMap;
         private Drawable fallbackAppIcon;
 
-        ViewHolder(Context context,
+        ViewHolder(NotificationsLogActivity activity,
+                   RowNotificationLogBinding binding,
                    NotificationEntity notificationEntity,
                    Map<Integer, String> causesTranslationsMap,
                    Map<String, Drawable> appsIconsMap,
                    Drawable fallbackAppIcon) {
-            this.context = context;
+            this.binding = binding;
+            this.mActivity = activity;
             this.notificationEntity = notificationEntity;
             this.causesTranslationsMap = causesTranslationsMap;
             this.appsIconsMap = appsIconsMap;
@@ -118,8 +97,6 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
         }
 
         void sync(View view) {
-            ButterKnife.bind(this, view);
-
             String causeText = "";
             switch (notificationEntity.getFilterResult()) {
                 case (Constants.FILTER_BLOCK): {
@@ -189,23 +166,22 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             }
 
             String dateText = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(new Date(notificationEntity.getDate()));
-            dateTextView.setText(dateText);
+            binding.rowNotificationLogDate.setText(dateText);
 
             String packageName = notificationEntity.getPackageName();
             Drawable appIcon = appsIconsMap.get(packageName);
             if (appIcon == null) {
                 try {
-                    appIcon = context.getPackageManager().getApplicationIcon(packageName);
+                    appIcon = mActivity.getPackageManager().getApplicationIcon(packageName);
                     appsIconsMap.put(packageName, appIcon);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                     appIcon = fallbackAppIcon;
                 }
             }
-            appIconImageView.setImageDrawable(appIcon);
-
-            packageNameTextView.setText(packageName);
-            causeTextView.setText(causeText);
+            binding.rowNotificationLogAppIcon.setImageDrawable(appIcon);
+            binding.rowNotificationLogPackage.setText(packageName);
+            binding.rowNotificationLogCause.setText(causeText);
         }
     }
 }

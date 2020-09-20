@@ -13,27 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.WidgetsAdapter;
+import com.edotassi.amazmod.databinding.ActivityWidgetBinding;
 import com.edotassi.amazmod.helpers.DynamicEventsHelper;
 
 import org.tinylog.Logger;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
 public class WidgetsActivity extends BaseAppCompatActivity{
 
-    @BindView(R.id.activity_widgets_selector_progress)
-    MaterialProgressBar materialProgressBar;
-
-    private RecyclerView mRecyclerView;
+    private ActivityWidgetBinding binding;
     private WidgetsAdapter mAdapter;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_widget);
+        binding = ActivityWidgetBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,12 +37,9 @@ public class WidgetsActivity extends BaseAppCompatActivity{
             Logger.error("Exception: " + exception.getMessage());
         }
 
-        ButterKnife.bind(this);
-
-        mRecyclerView = findViewById(R.id.activity_widgets_selector_list);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        binding.activityWidgetsSelectorList.setLayoutManager(mLayoutManager);
 
         DynamicEventsHelper.DynamicEventsCallback callback = new DynamicEventsHelper.DynamicEventsCallback() {
             @Override
@@ -62,20 +54,20 @@ public class WidgetsActivity extends BaseAppCompatActivity{
 
         };
         ItemTouchHelper androidItemTouchHelper = new ItemTouchHelper(new DynamicEventsHelper(callback,false));
-        androidItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        androidItemTouchHelper.attachToRecyclerView(binding.activityWidgetsSelectorList);
 
         mAdapter = new WidgetsAdapter(this, androidItemTouchHelper);
-        mRecyclerView.setAdapter(mAdapter);
+        binding.activityWidgetsSelectorList.setAdapter(mAdapter);
     }
 
     public void showProgressBar(){
-        materialProgressBar.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
+        binding.activityWidgetsSelectorProgress.setVisibility(View.VISIBLE);
+        binding.activityWidgetsSelectorList.setVisibility(View.GONE);
     }
 
     public void hideProgressBar(){
-        materialProgressBar.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        binding.activityWidgetsSelectorProgress.setVisibility(View.GONE);
+        binding.activityWidgetsSelectorList.setVisibility(View.VISIBLE);
     }
 
     @Override

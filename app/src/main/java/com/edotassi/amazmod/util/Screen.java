@@ -140,31 +140,35 @@ public class Screen {
     }
 
     public static boolean isStratos3(){
-        String model = Prefs.getString(Constants.PREF_WATCH_MODEL, "-");
-        boolean isStratos3 = model.contains("Amazfit Stratos 3");
+        String model = getModelNo();
+        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
         Logger.debug("DeviceUtil isStratos 3: checking if model is an Amazfit Stratos 3: " + isStratos3);
         return isStratos3;
     }
 
     public static boolean isVerge(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        String model = getModelNo();
         boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
         Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
         return isVerge;
     }
 
     public static boolean isStratos(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        String model = getModelNo();
         boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
         Logger.debug("DeviceUtil isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
         return isStratos;
     }
 
     public static boolean isPace(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        String model = getModelNo();
         boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
         Logger.debug("DeviceUtil isPace: checking if model " + model + " is an Amazfit Pace: " + isPace);
         return isPace;
+    }
+
+    public static String getModelNo(){
+        return getModelNoBySerialNo(Prefs.getString(Constants.PREF_SERIALNO, "-"));
     }
 
     public static String getModelNoBySerialNo(String serialNo){

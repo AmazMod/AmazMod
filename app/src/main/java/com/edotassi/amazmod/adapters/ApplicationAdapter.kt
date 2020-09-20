@@ -49,7 +49,7 @@ class ApplicationAdapter(private val mActivity: ApplicationSelectActivity, priva
                 }
             }
 
-            appInfoSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            appInfoSwitch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked != app.isEnabled) {
                     app.isEnabled = isChecked
                     appInfoButton.isEnabled = isChecked

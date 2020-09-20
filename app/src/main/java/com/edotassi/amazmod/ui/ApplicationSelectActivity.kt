@@ -107,21 +107,19 @@ class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTex
             return true
         }
         if (id == R.id.action_activity_notification_packges_selector_toggle_all) {
-            if (appList != null) {
-                var count: Long = 0
-                for (appInfoCheckForAll in appList) {
-                    if (appInfoCheckForAll.isEnabled) count++
-                }
-                if (appList.size <= count) {
-                    selectedAll = true
-                }
-                for (appInfo in appList) {
-                    appInfo.isEnabled = !selectedAll
-                }
-                selectedAll = !selectedAll
-                sortAppInfo(appList)
-                loadApplicationsToRecyclerView(appList)
+            var count: Long = 0
+            for (appInfoCheckForAll in appList) {
+                if (appInfoCheckForAll.isEnabled) count++
             }
+            if (appList.size <= count) {
+                selectedAll = true
+            }
+            for (appInfo in appList) {
+                appInfo.isEnabled = !selectedAll
+            }
+            selectedAll = !selectedAll
+            sortAppInfo(appList)
+            loadApplicationsToRecyclerView(appList)
             return true
         }
         return super.onOptionsItemSelected(item)

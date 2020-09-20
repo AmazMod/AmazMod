@@ -23,13 +23,7 @@ android {
             targetSdkVersion 23
             versionCode build
             versionName "${build}"
-
-            if (branch == "dev") {
-                versionNameSuffix "-" + branch
-                setProperty("archivesBaseName", "AmazMod-$project.name")
-            } else {
-                setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
-            }
+            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
         }
     }
     else {
@@ -59,7 +53,7 @@ android {
 
             def newApkName = ""
             def baseName = archivesBaseName
-            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def buildType = variant.buildType.name
             def date = new Date();
             def formattedDate = date.format('YYYYMMddHHmm', TimeZone.getTimeZone('UTC'))
 
@@ -96,24 +90,24 @@ dependencies {
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/WearServices_libs.jar')
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.emoji:emoji:1.0.0'
-    implementation 'androidx.emoji:emoji-appcompat:1.0.0'
-    implementation 'androidx.emoji:emoji-bundled:1.0.0'
+    implementation 'androidx.emoji:emoji:1.1.0-rc01'
+    implementation 'androidx.emoji:emoji-appcompat:1.1.0-rc01'
+    implementation 'androidx.emoji:emoji-bundled:1.1.0-rc01'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:iconics-views:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.marlonlom:timeago:3.0.2'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'org.apache.commons:commons-lang3:3.10'
     implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
-    compileOnly 'com.google.android.wearable:wearable:2.5.0'
-    implementation 'com.google.android.support:wearable:2.5.0'
+    compileOnly 'com.google.android.wearable:wearable:2.7.0'
+    implementation 'com.google.android.support:wearable:2.7.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
@@ -122,7 +116,7 @@ dependencies {
     implementation "org.tinylog:tinylog-api:${tinylog_version}"
     implementation "org.tinylog:tinylog-api-kotlin:${tinylog_version}"
     implementation "org.tinylog:tinylog-impl:${tinylog_version}"
-    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "androidx.core:core-ktx:1.3.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

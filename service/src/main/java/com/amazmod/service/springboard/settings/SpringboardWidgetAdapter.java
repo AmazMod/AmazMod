@@ -127,10 +127,12 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
             holder.sw.setChecked(switchSetting.isChecked);
             //Setup title
             holder.title.setText(switchSetting.title);
+            holder.title.setSelected(true);
             //Setup subtitle if required
             if (switchSetting.subtitle != null) {
                 holder.subtitle.setText(switchSetting.subtitle);
                 holder.subtitle.setVisibility(View.VISIBLE);
+                holder.subtitle.setSelected(true);
             } else {
                 holder.subtitle.setText("");
                 holder.subtitle.setVisibility(View.GONE);

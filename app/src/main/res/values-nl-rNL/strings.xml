@@ -16,7 +16,7 @@
     <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / Calendar / Weer</string>
     <string name="stats">Stats</string>
-    <string name="changelog">Wat is er veranderd</string>
+    <string name="changelog">Changelog</string>
     <string name="rate_app">Beoordeel App</string>
     <string name="enable">Inschakelen</string>
     <string name="cancel">Annuleren</string>
@@ -32,13 +32,13 @@
     <string name="delete">Verwijderen</string>
     <string name="download">Download</string>
     <string name="deleting">Verwijderen</string>
-    <string name="cant_delete_file">Kan bestanden niet verwijderen</string>
-    <string name="add_new_reply">Voeg een reactie toe</string>
+    <string name="cant_delete_file">Kan bestand niet verwijderen</string>
+    <string name="add_new_reply">Voeg reactie toe</string>
     <string name="enter_the_text_you_want_as_an_answer">Voer de gewenste tekst als een reactie</string>
     <string name="file_not_exists">Bestand bestaat niet</string>
     <string name="cant_uplaod_directory">Kan map niet uploaden</string>
     <string name="sending">Verzenden</string>
-    <string name="wait">even geduld aub</string>
+    <string name="wait">even geduld</string>
     <string name="file_choose_title">Kies één of meer bestanden</string>
     <string name="cant_upload_file">Kan bestand niet uploaden</string>
     <string name="cant_download_file">Kan bestand niet downloaden</string>
@@ -64,7 +64,7 @@
     <string name="notification_return">Terug</string>
     <string name="notification_package">Pakket</string>
     <string name="notification_voice">Stem</string>
-    <string name="notification_maps">Maps</string>
+    <string name="notification_maps">Kaarten</string>
     <string name="notification_ungroup">Groep opheffen</string>
     <string name="notification_localok">LOCALOK</string>
     <string name="notification_disabled">meldingen_uitgeschakeld</string>
@@ -107,7 +107,7 @@
     <string name="pref_battery_watch_alert_summary">Stel het batterijniveau in waaronder u een melding krijgt.</string>
     <string name="pref_battery_phone_alert">Horlogebatterij alarm</string>
     <string name="pref_battery_phone_alert_summary">Stel het batterijniveau in waaronder u een melding krijgt. De optie \"Stuur telefoondata\" van \"GreatFit/Kalender\" moet zijn ingeschakeld.</string>
-    <string name="pref_notifications_replies_summary">Voer uw aangepaste antwoorden in.</string>
+    <string name="pref_notifications_replies_summary">Eigen antwoorden.</string>
     <string name="pref_notifications_replies">Kennisgeving antwoorden</string>
     <string name="pref_private_notifications_summary">Melding zal worden verborgen (en meldingspaneel ook).</string>
     <string name="pref_private_notifications">Inhoud van privé notificaties</string>
@@ -121,11 +121,11 @@
     <string name="pref_notification_enable_sound_summary">Geluid voor aangepaste UI-melding inschakelen. Om het geluid aan te passen, zet u mp3 hernoemd als \"amazmod_notification.mp3\" in de map \"/sdcard/Notificaties/\"</string>
     <string name="pref_run_wizard">Welkom presentatie</string>
     <string name="pref_run_wizard_summary">Voer de welkome presentatie opnieuw uit.</string>
-    <string name="pref_vibration_duration">Duur van de trilling</string>
+    <string name="pref_vibration_duration">Trillingsduur</string>
     <string name="pref_vibration_duration_summary">Trillingsduur van het meldingsscherm instellen.</string>
     <string name="pref_screen_timeout">Scherm timeout</string>
     <string name="pref_screen_timeout_summary">Duur meldingsscherm instellen.</string>
-    <string name="pref_disable_notifications_when_dnd">Respecteer de DND-modus</string>
+    <string name="pref_disable_notifications_when_dnd">Respecteer DND-modus</string>
     <string name="pref_disable_notifications_when_dnd_summary">Meldingen worden niet verzonden wanneer Niet Storen is getedecteed.</string>
     <string name="pref_disable_remove_notifications">Behoud notificaties</string>
     <string name="pref_disable_remove_notifications_summary">Verwijder geen meldingen van horloge wanneer de meldingen worden verwijderd van de telefoon.</string>
@@ -150,23 +150,23 @@
     <string name="intro_description_permissions">AmazMod moet toegang tot meldingen hebben, zodat ze kunnen worden verzonden naar uw horloge, graag op de onderstaande knop klikken om toegang tot meldingen te geven, kom daarna terug naar de presentatie.</string>
     <string name="intro_label_grant_permissions">Gelieve machtiging te verlenen tot meldingen voordat u verdergaat.</string>
     <string name="intro_title_2">Service App installeren op horloge</string>
-    <string name="intro_description_2">Download amazmod_service APK van AmazMod website en installeer het op uw horloge. Als u wilt installeren, kunt u adb (alle platforms), APKInstaller of Amazfit Tool gebruiken als je een computer hebt met Windows.</string>
+    <string name="intro_description_2">Download amazmod_service APK en installeer op uw horloge. Als u wilt installeren, kunt u adb (alle platforms), APKInstaller of Amazfit Tool gebruiken als je een computer hebt met Windows.</string>
     <string name="intro_title_3">Apparaat herstarten</string>
     <string name="intro_description_3">Vervolgens zowel horloge en telefoon opnieuw opstarten. Je weet dat het heeft gewerkt wanneer je de gegevens in de horloge informatie box ziet.</string>
     <string name="intro_title_4">Klaar!</string>
     <string name="intro_description_4">Nu kun je naar AmazMod instellingen gaan en kies de apps waarvan je meldingen wilt ontvangen en voeg je aangepaste reacties toe.\n\nVeel plezier met AmazMod! \u2661</string>
     <string name="watch_is_connected">Verbonden</string>
     <string name="watch_disconnected">Verbinding verbroken</string>
-    <string name="watch_connecting">Bezig met verbinden…</string>
-    <string name="watch_connecting_no_service">Connecting without service…</string>
+    <string name="watch_connecting">Verbinden…</string>
+    <string name="watch_connecting_no_service">Verbinden zonder service…</string>
     <string name="notifications_screen_timeout">Scherm timeout</string>
     <string name="pref_notifications_inverted_theme">Licht thema</string>
     <string name="pref_notifications_inverted_theme_summary">Schakel lichte achtergrond met donkere tekst thema in.</string>
-    <string name="pref_font_title_size">Grootte titel lettertype</string>
+    <string name="pref_font_title_size">Grootte titel</string>
     <string name="pref_font_title_size_summary">Selecteer grootte titel lettertype in CustomUI notificaties.</string>
     <string name="pref_font_size">Lettertypegrootte</string>
     <string name="pref_font_size_summary">Selecteer lettertypegrootte gebruikt in CustomUI meldingen.</string>
-    <string name="notifications_font_title_size">Grootte titel lettertype</string>
+    <string name="notifications_font_title_size">Grootte titel</string>
     <string name="notifications_font_size">Lettertypegrootte</string>
     <string name="device_not_connected">Geen apparaat aangesloten</string>
     <string name="device_connected">was verbonden</string>
@@ -202,7 +202,7 @@
     <string name="activity_files_backup_downloads">Back-upbestand is opgeslagen in de map \' Downloads \':</string>
     <string name="activity_files_file_error">Bestandsfout!</string>
     <string name="activity_files_backup_ok">Back-up afgerond</string>
-    <string name="activity_files_backup_failed">Backup is mislukt!</string>
+    <string name="activity_files_backup_failed">Backup mislukt!</string>
     <string name="activity_files_no_write_permission">Fout: Geen schrijfrechten!</string>
     <string name="activity_files_restore_ok">Herstel gedaan, afsluiten…</string>
     <string name="activity_files_restore_failed">Herstellen mislukt!</string>
@@ -220,9 +220,9 @@
     <string name="file_explorer">Bestand verkenner</string>
     <string name="reading_files_failed">Lezen van bestanden is mislukt</string>
     <string name="activity_about_extras">Extra \'s</string>
-    <string name="revoke_device_owner">Intrekken van admin rechten op horloge</string>
+    <string name="revoke_device_owner">Intrekken admin rechten</string>
     <string name="alerts">Meldingen</string>
-    <string name="pref_phone_connect_alert_standard_notification">Gebruik standaard meldingen</string>
+    <string name="pref_phone_connect_alert_standard_notification">Standaard meldingen</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Gebruik standaard meldingen voor meldingen in plaats van een aangepaste volledige scherm UI.</string>
     <string name="enable_low_power">Schakel spaarstand in op je horloge</string>
     <string name="failed_to_send_command">Verzenden opdracht naar horloge is mislukt</string>
@@ -236,8 +236,8 @@
     <string name="apk_install_started_title">APK installeren</string>
     <string name="apk_install_started">De installatie wordt uitgevoerd in de achtergrond. \n Wanneer het is afgerond, zal je horloge opnieuw worden opgestart.</string>
     <string name="cant_start_apk_install">Kan niet starten met installeren apk</string>
-    <string name="reboot">Opnieuw opstarten</string>
-    <string name="restart_launcher">Launcher opnieuw starten</string>
+    <string name="reboot">Herstarten</string>
+    <string name="restart_launcher">Herstart launcher</string>
     <string name="enable_apps_list">Appslijst inschakelen</string>
     <string name="disable_apps_list">Appslijst uitschakelen</string>
     <string name="no_service_info_1">Het was niet mogelijk verbinding te maken met de AmazMod-Service op het horloge. Als u de service nog niet hebt geïnstalleerd, voer de onderstaande instructies uit:</string>
@@ -305,7 +305,7 @@
     <string name="pref_notifications_disable_large_icon_summary">Gebruikers-avantars worden niet getoond in de meldingen. Dit bespaart een beetje energie.</string>
     <string name="pref_notifications_disable_picture">Stuur geen notificatie afbeeldingen</string>
     <string name="pref_notifications_disable_picture_summary">Afbeeldingen worden niet getoond in meldingen. Dit bespaart energie.</string>
-    <string name="notification_silenced">STILGEZET</string>
+    <string name="notification_silenced">STIL</string>
     <string name="notification_text_filter">Filter</string>
     <string name="muted_apps">Gedempte programma\'s</string>
     <string name="ok">OK</string>
@@ -319,7 +319,7 @@
     <string name="pref_enable_delete_button_off">Swipe links naar het vierde scherm voor de verwijder knop bij een notificatie</string>
     <string name="activity_packageoptions_unmute">Dempen uit</string>
     <string name="activity_packageoptions_muted_until">App is gedempt tot:</string>
-    <string name="main_options">Belangrijkste opties</string>
+    <string name="main_options">Hoofdopties</string>
     <string name="watchface_calendar_source">Agendabron</string>
     <string name="test">Test</string>
     <string name="watchface_remote_ics_file">Extern ICS-bestand</string>
@@ -338,10 +338,10 @@
     <string name="select">Kies</string>
     <string name="pref_choose_language">Kies taal</string>
     <string name="pref_choose_language_summary">U kunt de taal van de app wijzigen.</string>
-    <string name="languages_automatic">Bepaal automatisch de taal</string>
+    <string name="languages_automatic">Autodetect-taal</string>
     <string name="pref_notifications_colored_icon">Gekleurde iconen</string>
     <string name="pref_notifications_colored_icon_summary">Gekleurde app icoon voor melding.</string>
-    <string name="pref_notifications_show_large_icon">Toon grote iconen</string>
+    <string name="pref_notifications_show_large_icon">Grote iconen</string>
     <string name="pref_notifications_show_large_icon_summary">Toon grote pictogrammen (meestal Contact Afbeelding) in meldingen.</string>
     <string name="pref_notifications_enable_images">Toon afbeeldingen</string>
     <string name="pref_notifications_enable_images_summary">Toon afbeeldingen in meldingen.</string>
@@ -386,8 +386,8 @@ het systeemthema (beta).</string>
     <string name="new_folder">Nieuwe map</string>
     <string name="pref_amazmod_overlay_launcher">Meldingen Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open aangepaste UI-notificatielijst met een overlay knop op het horloge (de locatie wordt kort getoond wanneer het scherm aan gaat en je kunt het naar links of rechts vegen).</string>
-    <string name="pref_amazmod_hourly_chime">Klokslag elk uur</string>
-    <string name="pref_amazmod_hourly_chime_summary">Activeer elk uur een korte trilling, met Casio geluid op Verge. De \"Niet storen modus\" wordt gerespecteerd.</string>
+    <string name="pref_amazmod_hourly_chime">Uursignaal</string>
+    <string name="pref_amazmod_hourly_chime_summary">Activeer elk uur een signaal (Casio geluid). \"Niet storen-modus\" wordt gerespecteerd.</string>
     <string name="file_not_found">Bestand niet gevonden!</string>
     <string name="pref_battery_full_alert">Alarm bij volle horlogebatterij</string>
     <string name="pref_battery_full_alert_summary">Krijg een melding wanneer het horloge volledig is opgeladen.</string>
@@ -419,11 +419,11 @@ het systeemthema (beta).</string>
     </plurals>
     <plurals name="hour">
         <item quantity="one">uur</item>
-        <item quantity="other">uur</item>
+        <item quantity="other">uren</item>
     </plurals>
     <plurals name="minute">
         <item quantity="one">minuut</item>
-        <item quantity="other">minuut</item>
+        <item quantity="other">minuten</item>
     </plurals>
     <string name="widgets_changed">Veranderde Widgets</string>
     <string name="problem_sending_data">Probleem met verzenden van gegevens</string>
@@ -443,7 +443,7 @@ het systeemthema (beta).</string>
     <string name="widget_timeline">Tijdlijn</string>
     <string name="widget_compass">Kompas</string>
     <string name="widget_heart">Hartslag</string>
-    <string name="widget_find_phone">Vind mijn telefoon</string>
+    <string name="widget_find_phone">Vind telefoon</string>
     <string name="widget_call">Bellen</string>
     <string name="widget_activity">Activiteiten</string>
     <string name="widget_weather">Weer</string>
@@ -462,7 +462,7 @@ het systeemthema (beta).</string>
     <string name="widget_stress">Stress Niveau</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hoofdactiviteit</string>
-    <string name="notification_replies_confirm_removal">Bevestigen</string>
+    <string name="notification_replies_confirm_removal">Bevestig</string>
     <string name="notification_replies_cancel_removal">Antwoord verwijderd</string>
     <string name="undo">ONGEDAAN MAKEN</string>
     <!-- Strings used for widget list end -->
@@ -480,7 +480,7 @@ het systeemthema (beta).</string>
     <string name="city_name_country_code">Stad naam, land code</string>
     <string name="api_key_openweathermap">API-sleutel (openweathermap)</string>
     <string name="yes">JA</string>
-    <string name="no">GEEN</string>
+    <string name="no">NEEN</string>
     <string name="file">Bestand</string>
     <string name="result">Resultaat</string>
     <string name="set_active_watchface">Wil je in te stellen als actieve watchface?</string>
@@ -490,24 +490,25 @@ het systeemthema (beta).</string>
     <string name="invalid_key">api-sleutel is ongeldig</string>
     <string name="miss_notification_access">Toegang verlenen aan AmazMod voor afhandelen van meldingen</string>
     <string name="turn_on_wifi">U moet telefoon WiFi inschakelen</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_empty_ip">Horlog IP leeg, gebruik WiFi AP</string>
+    <string name="watch_same_wifi">Horloge gevonden; verbonden met zelfde Wi-Fi-netwerk</string>
+    <string name="wifi_transfer_method">Kies gebruikte Wi-Fi methode</string>
     <string name="support_us">Steun ons</string>
-    <string name="no_donation">You cancelled the Donation 😢</string>
-    <string name="thanks_donation">Thanks for the Donation 😘</string>
-    <string name="activity_donation_select_product">Please select a donation in the list:</string>
+    <string name="no_donation">Gift geannuleerd 😢</string>
+    <string name="thanks_donation">Bedankt voor de gift! 😘</string>
+    <string name="activity_donation_select_product">Selecteer een gift:</string>
     <string name="activity_donation_opencollective">Doneer op OpenCollective</string>
     <string name="donate">Doneren</string>
     <string name="later">Later</string>
-    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
+    <string name="support_us_text">Wilt u de ontwikkeling van AmazMod ondersteunen? AmazMod is gratis en zal altijd zijn maar donaties helpen ons om apparaten te kopen om onze software te testen en te verbeteren.</string>
     <string name="donors">Donateurs</string>
     <string name="activity_view_donors">Bekijk Donateurs</string>
     <string name="donors_hall_of_fame">Donateurs Hall of Fame</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">Disclaimer: Google deelt geen vertrouwelijke gegevens zoals e-mailadressen of namen. We kunnen diegenen die gedoneerd hebben oplijsten, alleen degenen die OpenCollective gebruiken. We willen iedereen bedanken die doneert !!!</string>
     <string name="filter_as_whitelist">Whitelist</string>
     <string name="searchpreference_found">GEVONDEN! -&gt;</string>
     <string name="searchpreference_search">Zoeken…</string>
     <string name="searchpreference_clear_history">Geschiedenis wissen</string>
     <string name="searchpreference_no_results">Geen resultaten</string>
+    <string name="enable_sleep">Slaapstand als Android inschakelen</string>
 </resources>

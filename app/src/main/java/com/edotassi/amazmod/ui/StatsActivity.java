@@ -8,11 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.ActivityStatsBinding;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.edotassi.amazmod.event.Directory;
@@ -59,45 +56,21 @@ import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.ResultShellCommandData;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class StatsActivity extends BaseAppCompatActivity {
 
-    @BindView(R.id.activity_stats_main_container)
-    View statsMainContainer;
-    @BindView(R.id.activity_stats_root_layout)
-    ScrollView rootLayout;
-    @BindView(R.id.activity_stats_progress)
-    MaterialProgressBar materialProgressBar;
-    @BindView(R.id.activity_stats_notifications_last_hour)
-    TextView notificationsLastHour;
-    @BindView(R.id.activity_stats_notifications_24_hours)
-    TextView notificationsLast24Hours;
-    @BindView(R.id.activity_stats_notifications_total)
-    TextView notificationsTotal;
-    @BindView(R.id.activity_stats_logs_content)
-    TextView logsContentEditText;
-    @BindView(R.id.activity_stats_location_logs)
-    TextView locationLogsContent;
-
-    @BindView(R.id.activity_stats_open_notifications_log)
-    Button openNotificationsLogButton;
-
-    private SnackProgressBarManager snackProgressBarManager;
     private static String logFile;
-
     private final byte[] ALLOWED_FILTERS = {Constants.FILTER_CONTINUE,
-                                            Constants.FILTER_UNGROUP,
-                                            Constants.FILTER_VOICE,
-                                            Constants.FILTER_MAPS,
-                                            Constants.FILTER_LOCALOK};
+            Constants.FILTER_UNGROUP,
+            Constants.FILTER_VOICE,
+            Constants.FILTER_MAPS,
+            Constants.FILTER_LOCALOK};
+    private ActivityStatsBinding binding;
+    private SnackProgressBarManager snackProgressBarManager;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -109,8 +82,8 @@ public class StatsActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stats);
-
+        binding = ActivityStatsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         logFile = this.getExternalFilesDir(null) + File.separator + Constants.LOGFILE;
         Logger.debug("logFile: {}", logFile);
 
@@ -121,8 +94,6 @@ public class StatsActivity extends BaseAppCompatActivity {
             Logger.error(exception.getMessage());
             //TODO log to crashlitics
         }
-
-        ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
                 // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
@@ -150,31 +121,46 @@ public class StatsActivity extends BaseAppCompatActivity {
                 });
 
         // Make text scrollable inside ScrollView if needed
-        logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                logsContentEditText.getParent().requestDisallowInterceptTouchEvent(false);
-                locationLogsContent.getParent().requestDisallowInterceptTouchEvent(false);
-                return false;
+        binding.activityStatsLogsContent.setMovementMethod(new ScrollingMovementMethod());
+        binding.activityStatsRootLayout.setOnTouchListener((v, event) -> {
+            binding.activityStatsLogsContent.getParent().requestDisallowInterceptTouchEvent(false);
+            binding.activityStatsLocationLogs.getParent().requestDisallowInterceptTouchEvent(false);
+            return false;
+        });
+
+        binding.activityStatsLogsContent.setOnTouchListener((v, event) -> {
+            binding.activityStatsLogsContent.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
+        binding.activityStatsLocationLogs.setMovementMethod(new ScrollingMovementMethod());
+        binding.activityStatsLocationLogs.setOnTouchListener((v, event) -> {
+            binding.activityStatsLocationLogs.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
+        binding.activityStatsOpenNotificationsLog.setOnClickListener(v -> {
+            startActivity(new Intent(this, NotificationsLogActivity.class));
+        });
+
+
+        binding.activityStatsGenerateBundle.setOnClickListener(v -> {
+            String generateBundleCmd = ShellCommandHelper.getLogBundleCommand();
+            generateLogBundle(generateBundleCmd);
+        });
+
+        binding.activityStatsClearLogs.setOnClickListener(v -> {
+            try {
+                binding.activityStatsLogsContent.setText("");
+                FileWriter fw = new FileWriter(logFile, false);
+            } catch (IOException e) {
+                Logger.error(e, "clearLogs: can't empty file: {}", logFile);
             }
         });
 
-        logsContentEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                logsContentEditText.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
 
-        locationLogsContent.setMovementMethod(new ScrollingMovementMethod());
-        locationLogsContent.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                locationLogsContent.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
+        binding.activityStatsSendLogs.setOnClickListener(v -> {
+            sendLogs();
         });
     }
 
@@ -187,32 +173,8 @@ public class StatsActivity extends BaseAppCompatActivity {
         loadLocationLogs();
     }
 
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.activity_stats_open_notifications_log)
-    public void openLog() {
-        startActivity(new Intent(this, NotificationsLogActivity.class));
-    }
-
-    @OnClick(R.id.activity_stats_generate_bundle)
-    public void generateBundle(){
-        String generateBundleCmd = ShellCommandHelper.getLogBundleCommand();
-        generateLogBundle(generateBundleCmd);
-    }
-
-    @OnClick(R.id.activity_stats_clear_logs)
-    public void clearLogs(){
-        try{
-            logsContentEditText.setText("");
-            FileWriter fw = new FileWriter(logFile,false);
-        }catch (IOException e){
-            Logger.error(e,"clearLogs: can't empty file: {}", logFile);
-        }
-
-    }
-
-    @OnClick(R.id.activity_stats_send_logs)
-    public void sendLogs(){
-        final String logContent = logsContentEditText.getText().toString();
+    private void sendLogs() {
+        final String logContent = binding.activityStatsLogsContent.getText().toString();
         Logger.trace("logTextView: {} logFile: {}", logContent.substring(0, Math.min(logContent.length(), 48)), logFile);
 
         /* Send only the content of logsContentEditText
@@ -228,7 +190,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                     FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, file)
                     : Uri.fromFile(file);
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT,"AmazMod Phone Logs");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "AmazMod Phone Logs");
             sendIntent.putExtra(Intent.EXTRA_STREAM, path);
             sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             sendIntent.setType("plain/*");
@@ -242,15 +204,15 @@ public class StatsActivity extends BaseAppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rootLayout.setEnabled(false);
-            logsContentEditText.setLines(16);
+            binding.activityStatsRootLayout.setEnabled(false);
+            binding.activityStatsLogsContent.setLines(16);
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rootLayout.setEnabled(true);
-            logsContentEditText.setLines(12);
+            binding.activityStatsRootLayout.setEnabled(true);
+            binding.activityStatsLogsContent.setLines(12);
         }
     }
 
-    private void loadLogs(){
+    private void loadLogs() {
 
         final int lines = Integer.parseInt(Prefs.getString(Constants.PREF_LOG_LINES_SHOWN,
                 Constants.PREF_LOG_LINES_SHOWN_DEFAULT));
@@ -258,35 +220,35 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         final String log = FilesUtil.reverseLines(new File(logFile), lines);
         if (log != null) {
-            logsContentEditText.setText(log);
-            logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
+            binding.activityStatsLogsContent.setText(log);
+            binding.activityStatsLogsContent.setMovementMethod(new ScrollingMovementMethod());
         } else
             Logger.error("error reading log file");
 
     }
 
-    private void loadLocationLogs(){
+    private void loadLocationLogs() {
         // Retrieve saved location data [milliseconds, latitude, longitude, watch_status]
         Set<String> saved_data = Prefs.getStringSet(Constants.PREF_LOCATION_GPS_DATA, null);
 
-        if( saved_data == null ){
-            locationLogsContent.setText("N/A");
+        if (saved_data == null) {
+            binding.activityStatsLocationLogs.setText("N/A");
             return;
         }
 
         String log = "";
-        for(String line : saved_data){
+        for (String line : saved_data) {
             log = log + "\n" + line;
         }
 
-        locationLogsContent.setText(log);
-        locationLogsContent.setMovementMethod(new ScrollingMovementMethod());
+        binding.activityStatsLocationLogs.setText(log);
+        binding.activityStatsLocationLogs.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @SuppressLint("CheckResult")
     private void loadStats() {
-        materialProgressBar.setVisibility(View.VISIBLE);
-        statsMainContainer.setVisibility(View.GONE);
+        binding.activityStatsProgress.setVisibility(View.VISIBLE);
+        binding.activityStatsMainContainer.setVisibility(View.GONE);
 
         Flowable
                 .fromCallable(new Callable<StatsResult>() {
@@ -305,7 +267,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                         long totalADayAgo = 0L;
                         long sum;
 
-                        for (byte f: ALLOWED_FILTERS) {
+                        for (byte f : ALLOWED_FILTERS) {
                             sum = SQLite
                                     .selectCountOf()
                                     .from(NotificationEntity.class)
@@ -315,7 +277,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                             totalAnHourAgo += sum;
                         }
 
-                        for (byte f: ALLOWED_FILTERS) {
+                        for (byte f : ALLOWED_FILTERS) {
                             sum = SQLite
                                     .selectCountOf()
                                     .from(NotificationEntity.class)
@@ -341,48 +303,19 @@ public class StatsActivity extends BaseAppCompatActivity {
                         StatsActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                notificationsTotal.setText(String.valueOf(result.getNotificationsTotal()));
-                                notificationsLastHour.setText(String.valueOf(result.getNotificationsTotalAnHourAgo()));
-                                notificationsLast24Hours.setText(String.valueOf(result.getNotificationsTotalADayAgo()));
+                                binding.activityStatsNotificationsTotal.setText(String.valueOf(result.getNotificationsTotal()));
+                                binding.activityStatsNotificationsLastHour.setText(String.valueOf(result.getNotificationsTotalAnHourAgo()));
+                                binding.activityStatsNotifications24Hours.setText(String.valueOf(result.getNotificationsTotalADayAgo()));
 
-                                materialProgressBar.setVisibility(View.GONE);
-                                statsMainContainer.setVisibility(View.VISIBLE);
+                                binding.activityStatsProgress.setVisibility(View.GONE);
+                                binding.activityStatsMainContainer.setVisibility(View.VISIBLE);
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error(throwable.toString());
                 });
     }
-
-    private class StatsResult {
-        private long notificationsTotal;
-        private long notificationsTotalAnHourAgo;
-        private long notificationsTotalADayAgo;
-
-        public long getNotificationsTotal() {
-            return notificationsTotal;
-        }
-
-        public void setNotificationsTotal(long notificationsTotal) {
-            this.notificationsTotal = notificationsTotal;
-        }
-
-        public long getNotificationsTotalAnHourAgo() {
-            return notificationsTotalAnHourAgo;
-        }
-
-        public void setNotificationsTotalAnHourAgo(long notificationsTotalAnHourAgo) {
-            this.notificationsTotalAnHourAgo = notificationsTotalAnHourAgo;
-        }
-
-        public long getNotificationsTotalADayAgo() {
-            return notificationsTotalADayAgo;
-        }
-
-        public void setNotificationsTotalADayAgo(long notificationsTotalADayAgo) {
-            this.notificationsTotalADayAgo = notificationsTotalADayAgo;
-        }
-    }
-
 
     //STEP 1: Generate Log Bundle in Watch
     private void generateLogBundle(String command) {
@@ -450,8 +383,8 @@ public class StatsActivity extends BaseAppCompatActivity {
                                 List<FileData> filesData = gson.fromJson(jsonFiles, new TypeToken<List<FileData>>() {
                                 }.getType());
 
-                                for (FileData f : filesData){
-                                    if (f.getName().equals(fFile.getName())){
+                                for (FileData f : filesData) {
+                                    if (f.getName().equals(fFile.getName())) {
                                         downloadBundleFile(f);
                                     }
                                 }
@@ -579,7 +512,7 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "amazmod.amazfit@gmail.com", "diotto@gmail.com" });
+        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"amazmod.amazfit@gmail.com", "diotto@gmail.com"});
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "AmazMod Log Bundle");
 
         ArrayList<Uri> uris = new ArrayList<>();
@@ -597,6 +530,36 @@ public class StatsActivity extends BaseAppCompatActivity {
         // Grant temporary read permission to the content URI
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, getString(R.string.share) + "…"));
+    }
+
+    private class StatsResult {
+        private long notificationsTotal;
+        private long notificationsTotalAnHourAgo;
+        private long notificationsTotalADayAgo;
+
+        public long getNotificationsTotal() {
+            return notificationsTotal;
+        }
+
+        public void setNotificationsTotal(long notificationsTotal) {
+            this.notificationsTotal = notificationsTotal;
+        }
+
+        public long getNotificationsTotalAnHourAgo() {
+            return notificationsTotalAnHourAgo;
+        }
+
+        public void setNotificationsTotalAnHourAgo(long notificationsTotalAnHourAgo) {
+            this.notificationsTotalAnHourAgo = notificationsTotalAnHourAgo;
+        }
+
+        public long getNotificationsTotalADayAgo() {
+            return notificationsTotalADayAgo;
+        }
+
+        public void setNotificationsTotalADayAgo(long notificationsTotalADayAgo) {
+            this.notificationsTotalADayAgo = notificationsTotalADayAgo;
+        }
     }
 
 }

@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Средње</string>
     <string name="uvindex_strong">Јако</string>
     <string name="uvindex_verystrong">Веома јако</string>
+    <string name="alarm">Аларм</string>
+    <string name="alarm_snooze">Одложи</string>
+    <string name="alarm_dismiss">Одбаци</string>
+    <string name="camera_delay">Кашњење</string>
+    <string name="camera_shutter">Затварача Камере</string>
 </resources>

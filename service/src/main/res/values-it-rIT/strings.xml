@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Moderato</string>
     <string name="uvindex_strong">Forte</string>
     <string name="uvindex_verystrong">Molto forte</string>
+    <string name="alarm">Sveglia</string>
+    <string name="alarm_snooze">Posticipa</string>
+    <string name="alarm_dismiss">Spegni</string>
+    <string name="camera_delay">Ritardo</string>
+    <string name="camera_shutter">Scatto Remoto</string>
 </resources>

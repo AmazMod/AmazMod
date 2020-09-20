@@ -2,6 +2,7 @@ package com.amazmod.service.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -172,20 +173,10 @@ public class ExecCommand {
 
     private class OutputReader extends Thread {
 
-        private Context context;
+        private Handler handler;
 
         OutputReader() {
-            context = null;
-            try {
-                outputSem = new Semaphore(1);
-                outputSem.acquire();
-            } catch (InterruptedException e) {
-                Logger.error(e, "ExecCommand OutputReader exception: {}", e.getMessage());
-            }
-        }
-        // TODO: Start using this OutputReader with context instead of the other one
-        OutputReader(Context paramContext) {
-            context = paramContext;
+            handler = new Handler();
             try {
                 outputSem = new Semaphore(1);
                 outputSem.acquire();
@@ -211,9 +202,12 @@ public class ExecCommand {
                 }
                 output = readBuffer.toString();
                 if (output.toLowerCase().contains("fail")) {
+                    Context context = AmazModService.getContext();
                     if(context != null){
-                        Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
-                        DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                        handler.post(() -> {
+                            Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
+                            DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                        });
                     } else {
                         new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
                     }
@@ -221,7 +215,7 @@ public class ExecCommand {
                 }
                 outputSem.release();
             } catch (IOException e) {
-                Logger.error(e, "ExecCommand OutputError.run exception: {}", e.getMessage());
+                Logger.error(e, "ExecCommand OutputError.run exception: {}", e.toString());
             }
         }
     }

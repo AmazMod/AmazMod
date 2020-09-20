@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.amazmod.service">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,13 +18,13 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
     <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
-
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
@@ -37,9 +37,15 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Transparent"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".sleep.alarm.alarmActivity"></activity>
 
-        <uses-library android:name="com.google.android.wearable" android:required="false" />
-        <meta-data android:name="com.google.android.wearable.standalone" android:value="true" />
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
         <meta-data
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
@@ -51,32 +57,36 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".ui.NotificationWearActivity"
+        <activity
+            android:name=".ui.NotificationWearActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".ui.ConfirmationWearActivity"
+        <activity
+            android:name=".ui.ConfirmationWearActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
-            android:theme="@style/Theme.NoSwipeToDismiss">
-        </activity>
-        <activity android:name=".ui.DummyActivity"
+            android:theme="@style/Theme.NoSwipeToDismiss"></activity>
+        <activity
+            android:name=".ui.DummyActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.NoSwipeToDismiss" />
-        <activity android:name=".ui.InputMethodActivity"
+        <activity
+            android:name=".ui.InputMethodActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".springboard.LauncherWearGridActivity"
+        <activity
+            android:name=".springboard.LauncherWearGridActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label="AmazMod"
@@ -84,77 +94,87 @@
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".springboard.WidgetsReorderActivity"
+        <activity
+            android:name=".springboard.WidgetsReorderActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".ui.ScreenSettingsActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label=""
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent"/>
-        <activity android:name=".ui.BatteryGraphActivity"
+        <activity
+            android:name=".ui.ScreenSettingsActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".ui.FileViewerWebViewActivity"
+        <activity
+            android:name=".ui.BatteryGraphActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
-
-        <!-- Deprecated: Hermes Event Bus -->
-        <!--        <activity android:name="android.support.v7.app.ActionBarActivity" /> -->
-        <!--        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" /> -->
-
-        <service android:name=".MainService"
+        <activity
+            android:name=".ui.FileViewerWebViewActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity" /> <!-- Deprecated: Hermes Event Bus -->
+        <!-- <activity android:name="android.support.v7.app.ActionBarActivity" /> -->
+        <!-- <service android:name="xiaofei.library.hermes.HermesService$HermesService0" /> -->
+        <service
+            android:name=".MainService"
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="com.amazmod.service.MainService"/>
+                <action android:name="com.amazmod.service.MainService" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </service>
-
-        <service android:name=".support.BatteryJobService"
+        <service
+            android:name=".sleep.sleepService"
+            android:exported="true" />
+        <service
+            android:name=".support.BatteryJobService"
             android:label="AmazModBatteryJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service
-            android:name="com.amazmod.service.OverlayLauncher"
+            android:name=".OverlayLauncher"
             android:exported="false" />
 
-        <receiver android:name=".receiver.PackageReceiver"
+        <receiver
+            android:name=".receiver.PackageReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-                <data android:scheme="package"  />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
             </intent-filter>
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <data android:scheme="package"  />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" />
             </intent-filter>
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"  />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
             </intent-filter>
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.AlarmReceiver"/>
+        <receiver android:name=".receiver.AlarmReceiver" />
         <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="true"
@@ -166,32 +186,20 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receiver.AdminReceiver"
-            android:label="@string/device_admin"
             android:description="@string/device_admin_description"
+            android:label="@string/device_admin"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
+
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
                 <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
             </intent-filter>
         </receiver>
-
-        <!-- Disabled as it does not work anyway
-        <service
-            android:name=".NotificationListener"
-            android:exported="true"
-            android:label="AmazModNotificationListenerService"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
-        -->
-
     </application>
+
 </manifest>

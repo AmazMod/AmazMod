@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -30,6 +31,7 @@ import androidx.preference.PreferenceManager;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.FragmentBatteryChartBinding;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.support.DownloadHelper;
@@ -71,23 +73,21 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class BatteryChartFragment extends Card {
-
+/*
     @BindView(R.id.card_battery_last_read)
     TextView lastRead;
-    @BindView(R.id.textView2)
+    @BindView(R.id.battery_tv)
     TextView batteryTv;
     @BindView(R.id.imageView2)
     ImageView imageView;
     @BindView(R.id.card_battery)
     CardView cardView;
-
     @BindView(R.id.battery_chart)
     LineChart chart;
-
+    */
+    private FragmentBatteryChartBinding binding;
     private Context mContext;
     private static long lastDateChart;
     private static boolean sendNewRequest, requestSent;
@@ -103,45 +103,39 @@ public class BatteryChartFragment extends Card {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_battery_chart, container, false);
-
-        ButterKnife.bind(this, view);
-
+        binding = FragmentBatteryChartBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         Activity activity = getActivity();
-        chart.setNoDataText(getString(R.string.pref_heartrate_nodata));
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                updateChart();
-                new MaterialDialog.Builder(activity)
+        binding.batteryChart.setNoDataText(getString(R.string.pref_heartrate_nodata));
+        binding.cardBattery.setOnLongClickListener(v -> {
+            updateChart();
+            new MaterialDialog.Builder(activity)
 
-                        .title(activity.getString(R.string.battery_fragment_select_option))
-                        .items(new String[]{
-                                getResources().getString(R.string.batter_data_request),
-                                getResources().getString(R.string.batter_data_export)
-                        })
-                        .itemsCallback(new MaterialDialog.ListCallback() {
-                            @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                switch (position) {
-                                    case 0:
-                                        SendNewRequest();
-                                        break;
-                                    case 1:
-                                        ExportBatteryStats(activity);
-                                        break;
-                                }
+                    .title(activity.getString(R.string.battery_fragment_select_option))
+                    .items(new String[]{
+                            getResources().getString(R.string.batter_data_request),
+                            getResources().getString(R.string.batter_data_export)
+                    })
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            switch (position) {
+                                case 0:
+                                    SendNewRequest();
+                                    break;
+                                case 1:
+                                    ExportBatteryStats(activity);
+                                    break;
                             }
-                        }).show();
-                return true;
-            }
+                        }
+                    }).show();
+            return true;
         });
 
         updateChart();
@@ -185,6 +179,7 @@ public class BatteryChartFragment extends Card {
 
                 // https://stackoverflow.com/questions/15402976/how-to-create-a-csv-file-in-android
                 new Thread() {
+                    @SuppressLint("StringFormatInvalid")
                     public void run() {
                         try {
 
@@ -349,7 +344,7 @@ public class BatteryChartFragment extends Card {
         if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
             textDate += " " + date;
         }
-        lastRead.setText(textDate);
+        binding.cardBatteryLastRead.setText(textDate);
 
         BatteryStatusEntity prevRead = null;
 
@@ -410,7 +405,7 @@ public class BatteryChartFragment extends Card {
             }
             dateDiff.append(getResources().getText(R.string.last_charge));
         } else dateDiff.append(getResources().getText(R.string.last_charge_no_info));
-        batteryTv.setText(dateDiff.toString());
+        binding.batteryTv.setText(dateDiff.toString());
 
 
         // PREDICT BATTERY, calculate values
@@ -455,7 +450,7 @@ public class BatteryChartFragment extends Card {
                 // Future time that battery will be 100%
                 target_time = x2 + (x2 - x1) / (y2 - y1) * (100 - y2);
 
-                textDate = lastRead.getText() + ", " + getResources().getText(R.string.full_battery_in) + ": ";
+                textDate = binding.cardBatteryLastRead.getText() + ", " + getResources().getText(R.string.full_battery_in) + ": ";
                 remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
                 int count = (int) (remaining_now_diff / 60);
                 int count1 = (int) (remaining_now_diff % 60);
@@ -467,7 +462,7 @@ public class BatteryChartFragment extends Card {
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
-                textDate = lastRead.getText() + ", " + getResources().getText(R.string.remaining_battery) + ": ";
+                textDate = binding.cardBatteryLastRead.getText() + ", " + getResources().getText(R.string.remaining_battery) + ": ";
                 remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
                 int count = (int) (remaining_now_diff / 24);
                 int count1 = (int) (remaining_now_diff % 24);
@@ -488,7 +483,7 @@ public class BatteryChartFragment extends Card {
                 lowX = (long) yValues.get(0).getX();
 
                 // Add remaining time/full battery time to "Last Read" line
-                lastRead.setText(textDate);
+                binding.cardBatteryLastRead.setText(textDate);
             }
         }
 
@@ -527,16 +522,16 @@ public class BatteryChartFragment extends Card {
 
         Description description = new Description();
         description.setText("");
-        chart.setDescription(description);
+        binding.batteryChart.setDescription(description);
 
-        XAxis xAxis = chart.getXAxis();
+        XAxis xAxis = binding.batteryChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setLabelRotationAngle(-45);
         xAxis.setTextSize(8);
         xAxis.setAxisMinimum(lowX);
         xAxis.setAxisMaximum(highX);
-        xAxis.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
+        xAxis.setTextColor(ThemeHelper.getThemeForegroundColor(requireContext()));
 
         final Calendar now = Calendar.getInstance();
         final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
@@ -565,7 +560,7 @@ public class BatteryChartFragment extends Card {
             }
         });
 
-        YAxis leftAxis = chart.getAxisLeft();
+        YAxis leftAxis = binding.batteryChart.getAxisLeft();
         leftAxis.setDrawAxisLine(true);
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawGridLines(true);
@@ -573,11 +568,17 @@ public class BatteryChartFragment extends Card {
         leftAxis.setAxisMaximum(100);
         leftAxis.setTextColor(ThemeHelper.getThemeForegroundColor(getContext()));
 
-        chart.getAxisRight().setEnabled(false);
-        chart.getLegend().setEnabled(false);
-        chart.setTouchEnabled(false);
+        binding.batteryChart.getAxisRight().setEnabled(false);
+        binding.batteryChart.getLegend().setEnabled(false);
+        binding.batteryChart.setTouchEnabled(false);
 
-        chart.setXAxisRenderer(new CustomXAxisRenderer(chart.getViewPortHandler(), chart.getXAxis(), chart.getTransformer(YAxis.AxisDependency.LEFT)));
+        binding.batteryChart.setXAxisRenderer(
+                new CustomXAxisRenderer(
+                        binding.batteryChart.getViewPortHandler(),
+                        binding.batteryChart.getXAxis(),
+                        binding.batteryChart.getTransformer(YAxis.AxisDependency.LEFT)
+                )
+        );
 
         //LineData lineData = new LineData(lineDataSet);
         //chart.setData(lineData);
@@ -587,9 +588,9 @@ public class BatteryChartFragment extends Card {
         dataSets.add(linePredictionDataSet);
 
         LineData lineData = new LineData(dataSets);
-        chart.setData(lineData);
+        binding.batteryChart.setData(lineData);
 
-        chart.invalidate();
+        binding.batteryChart.invalidate();
     }
 
     private class CustomXAxisRenderer extends XAxisRenderer {

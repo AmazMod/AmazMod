@@ -55,13 +55,13 @@
     </string-array>
     <string-array name="default_notification_replies">
         <item>Ja</item>
-        <item>Nee</item>
+        <item>Neen</item>
         <item>Bedankt</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Filter notification\'s title</item>
-        <item>Filter notification\'s contents</item>
-        <item>Filter both title and content</item>
+        <item>Titel berichtfilter</item>
+        <item>Filter melding inhoud</item>
+        <item>Zowel de titel als de inhoud filteren</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
         <item>Metrisch (Kelvin)</item>

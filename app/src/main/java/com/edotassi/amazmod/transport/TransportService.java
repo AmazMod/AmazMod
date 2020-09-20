@@ -3,6 +3,7 @@ package com.edotassi.amazmod.transport;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -27,11 +28,13 @@ import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.event.SilenceApplication;
+import com.edotassi.amazmod.event.TakePicture;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.sleep.sleepListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -109,6 +112,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.FILE_UPLOAD, RequestFileUpload.class);
         put(Transport.SILENCE, SilenceApplication.class);
         put(Transport.WIDGETS_DATA, ResultWidgets.class);
+        put(Transport.TAKE_PICTURE, TakePicture.class);
     }};
 
     private static ArrayMap<String, Object> pendingResults = new ArrayMap<>();
@@ -171,6 +175,8 @@ public class TransportService extends Service implements Transporter.DataListene
         // Amazfit Internet Companion
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false))
             startInternetCompanion(getApplicationContext());
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_ENABLE_SLEEP_AS_ANDROID, false))
+            sleepListener.register(this);
     }
 
     @Override
@@ -287,6 +293,8 @@ public class TransportService extends Service implements Transporter.DataListene
             transporterHealth.disconnectTransportService();
             transporterHealth = null;
         }
+
+        sleepListener.unregister();
     }
 
     public static void connectTransporterAmazMod(){
@@ -470,6 +478,17 @@ public class TransportService extends Service implements Transporter.DataListene
             return;
         }
 
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.setWatchConnected(false);
+                EventBus.getDefault().removeAllStickyEvents();
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
+            }
+            Logger.warn("Bluetooth is not enabled");
+            return;
+        }
+
         DataBundle dataBundle = new DataBundle();
         if (transportable != null)
             transportable.toDataBundle(dataBundle);
@@ -551,6 +570,7 @@ public class TransportService extends Service implements Transporter.DataListene
     }
 
     public static void getDataTransportResult(char mode, String action, final String uuid, DataBundle dataBundle, final DataTransportResultCallback callback) {
+
         // Get appropriate transporter based on mode
         Transporter t = getTransporter(mode, action);
 

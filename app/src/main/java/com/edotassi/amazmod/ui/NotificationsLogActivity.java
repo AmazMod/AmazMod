@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,31 +13,27 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.NotificationLogAdapter;
+import com.edotassi.amazmod.databinding.ActivityNotificationsLogBinding;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.tinylog.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class NotificationsLogActivity extends BaseAppCompatActivity {
 
-    @BindView(R.id.activity_notifications_log_progress)
-    MaterialProgressBar progressBar;
-
-    @BindView(R.id.activity_notifications_log_list)
-    ListView listView;
+    private ActivityNotificationsLogBinding binding;
 
     private NotificationLogAdapter notificationLogAdapter;
     private static boolean showOnlySelected;
@@ -52,20 +47,12 @@ public class NotificationsLogActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications_log);
-
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException exception) {
-            //TODO log to crashlitics
-        }
-
+        binding = ActivityNotificationsLogBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.notifications_log);
-        ButterKnife.bind(this);
-
         notificationLogAdapter = new NotificationLogAdapter(this, R.layout.row_notification_log, new ArrayList<NotificationEntity>());
-        listView.setAdapter(notificationLogAdapter);
-
+        binding.activityNotificationsLogList.setAdapter(notificationLogAdapter);
         showOnlySelected = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LOG_SHOW_ONLY_SELECTED, false);
         loadLog(showOnlySelected);
     }
@@ -113,8 +100,8 @@ public class NotificationsLogActivity extends BaseAppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void loadLog(final boolean loadSelectedOnly) {
-        progressBar.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.GONE);
+        binding.activityNotificationsLogProgress.setVisibility(View.VISIBLE);
+        binding.activityNotificationsLogList.setVisibility(View.GONE);
 
         Flowable.fromCallable(new Callable<List<NotificationEntity>>() {
             @Override
@@ -145,11 +132,13 @@ public class NotificationsLogActivity extends BaseAppCompatActivity {
                                 notificationLogAdapter.addAll(notificationEntities);
                                 notificationLogAdapter.notifyDataSetChanged();
 
-                                progressBar.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
+                                binding.activityNotificationsLogProgress.setVisibility(View.GONE);
+                                binding.activityNotificationsLogList.setVisibility(View.VISIBLE);
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error(throwable.toString());
                 });
     }
 }

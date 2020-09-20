@@ -15,10 +15,10 @@ import android.os.Process
 import android.service.notification.StatusBarNotification
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.view.LayoutInflaterCompat
-import butterknife.OnLongClick
 import com.edotassi.amazmod.BuildConfig
 import com.edotassi.amazmod.R
 import com.edotassi.amazmod.notification.NotificationService
@@ -58,6 +58,12 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             activity_about_version.append(" - " + BuildConfig.VERSION_CODE + ":dev")
         }
+
+        amazmod_logo.setOnLongClickListener(View.OnLongClickListener {
+            NotificationService.cancelPendingJobs()
+            Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show()
+            return@OnLongClickListener true
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -192,13 +198,6 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
         } catch (ex: Exception) {
             ArrayList()
         }
-    }
-
-    @OnLongClick(R.id.amazmod_logo)
-    fun onAmazmodLogoLongClick(): Boolean {
-        NotificationService.cancelPendingJobs()
-        Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show()
-        return true
     }
 
     override fun onSuccess(dataTransportResult: DataTransportResult, key: String) {

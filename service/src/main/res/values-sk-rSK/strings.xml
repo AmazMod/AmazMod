@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Stredné</string>
     <string name="uvindex_strong">Silné</string>
     <string name="uvindex_verystrong">Veľmi silné</string>
+    <string name="alarm">Budík</string>
+    <string name="alarm_snooze">Odložiť</string>
+    <string name="alarm_dismiss">Zrušiť</string>
+    <string name="camera_delay">Oneskorenie</string>
+    <string name="camera_shutter">Spúšť Fotoaparátu</string>
 </resources>

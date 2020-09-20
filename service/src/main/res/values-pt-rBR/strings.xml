@@ -167,9 +167,14 @@
     <string name="activity_menu_input_method">Alterar Método de Entrada</string>
     <string name="activity_menu_device_info">Informações do dispositivo</string>
     <string name="activity_menu_hourly_chime">Toque de Hora</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_weakest">Mais fraco</string>
+    <string name="uvindex_weak">Fraco</string>
+    <string name="uvindex_moderate">Moderado</string>
+    <string name="uvindex_strong">Forte</string>
+    <string name="uvindex_verystrong">Muito forte</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
+    <string name="camera_delay">Delay</string>
+    <string name="camera_shutter">Camera Shutter</string>
 </resources>

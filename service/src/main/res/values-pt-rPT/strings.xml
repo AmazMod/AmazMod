@@ -172,4 +172,9 @@
     <string name="uvindex_moderate">Moderado</string>
     <string name="uvindex_strong">Forte</string>
     <string name="uvindex_verystrong">Muito forte</string>
+    <string name="alarm">Alarme</string>
+    <string name="alarm_snooze">Adiar</string>
+    <string name="alarm_dismiss">Dispensar</string>
+    <string name="camera_delay">Atraso</string>
+    <string name="camera_shutter">Obturador da Câmara</string>
 </resources>
