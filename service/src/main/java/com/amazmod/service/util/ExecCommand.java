@@ -3,6 +3,7 @@ package com.amazmod.service.util;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -176,6 +177,8 @@ public class ExecCommand {
         private Handler handler;
 
         OutputReader() {
+            if(Looper.myLooper() == null)
+                Looper.prepare();
             handler = new Handler();
             try {
                 outputSem = new Semaphore(1);
