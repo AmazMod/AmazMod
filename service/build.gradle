@@ -23,13 +23,7 @@ android {
             targetSdkVersion 23
             versionCode build
             versionName "${build}"
-
-            if (branch == "dev") {
-                versionNameSuffix "-" + branch
-                setProperty("archivesBaseName", "AmazMod-$project.name")
-            } else {
-                setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
-            }
+            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
         }
     }
     else {

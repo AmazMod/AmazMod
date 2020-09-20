@@ -1,9 +1,18 @@
 <changelog>
     <release
-        date="2020-05-30"
-        versionCode="228"
-        versionName="v1.2.1">
-        <new>Better Stratos 3 compatibility</new>
+        date="2020-09-20"
+        versionCode="231"
+        versionName="v1.2.3">
+        <bugfix>Bugfixes</bugfix>
+    </release>
+    <release
+        date="2020-09-14"
+        versionCode="230"
+        versionName="v1.2.2">
+        <new>Removing donation and support functionality</new>
+        <new>Optional experimental Sleep As Android support</new>
+        <new>Connectivity improvements</new>
+        <new>Stratos 3 connectivity enchancments</new>
         <bugfix>Fixed screen on bug in service v1911</bugfix>
     </release>
 
