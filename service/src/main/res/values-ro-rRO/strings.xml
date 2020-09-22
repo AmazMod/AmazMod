@@ -167,14 +167,14 @@
     <string name="activity_menu_input_method">Modificați Metoda de Introducere</string>
     <string name="activity_menu_device_info">Informații despre dispozitiv</string>
     <string name="activity_menu_hourly_chime">Clopot pe Oră</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
-    <string name="alarm">Alarm</string>
-    <string name="alarm_snooze">Snooze</string>
-    <string name="alarm_dismiss">Dismiss</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="uvindex_weakest">Cel Mai Slab</string>
+    <string name="uvindex_weak">Slab</string>
+    <string name="uvindex_moderate">Moderat</string>
+    <string name="uvindex_strong">Puternic</string>
+    <string name="uvindex_verystrong">Foarte puternic</string>
+    <string name="alarm">Alarmă</string>
+    <string name="alarm_snooze">Amânați</string>
+    <string name="alarm_dismiss">Respingeți</string>
+    <string name="camera_delay">Întârziere</string>
+    <string name="camera_shutter">Obturator pentru Cameră</string>
 </resources>

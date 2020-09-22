@@ -158,7 +158,7 @@
     <string name="watch_is_connected">Conectat(ă)</string>
     <string name="watch_disconnected">Deconectat</string>
     <string name="watch_connecting">Se conectează…</string>
-    <string name="watch_connecting_no_service">Connecting without service…</string>
+    <string name="watch_connecting_no_service">Conectarea fără serviciu…</string>
     <string name="notifications_screen_timeout">Pauză ecran</string>
     <string name="pref_notifications_inverted_theme">Tema luminoasă</string>
     <string name="pref_notifications_inverted_theme_summary">Activează tema cu fundal luminos și text de nuanță închisă.</string>
@@ -512,5 +512,5 @@
     <string name="searchpreference_search">Căută…</string>
     <string name="searchpreference_clear_history">Ştergeţi istoricul</string>
     <string name="searchpreference_no_results">Niciun rezultat</string>
-    <string name="enable_sleep">Enable Sleep As Android</string>
+    <string name="enable_sleep">Activează Somn Ca Android</string>
 </resources>
