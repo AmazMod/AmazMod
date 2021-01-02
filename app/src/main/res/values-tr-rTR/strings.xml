@@ -376,7 +376,7 @@
     <string name="product_model">Ürün modeli</string>
     <string name="product_name">Ürün ismi</string>
     <string name="serial_number">Seri nosu</string>
-    <string name="build_id">Firmware</string>
+    <string name="build_id">Sabit Yazılım</string>
     <string name="build_model">Huami modelini derle</string>
     <string name="build_description">Derleme açıklaması</string>
     <string name="rename_folder">Klasörü Yeniden Adlandır</string>

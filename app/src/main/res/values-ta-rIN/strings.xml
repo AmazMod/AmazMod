@@ -128,7 +128,7 @@
     <string name="pref_disable_notifications_when_dnd">DND பயன்முறையை மதிக்கவும்</string>
     <string name="pref_disable_notifications_when_dnd_summary">தொந்தரவு செய்யாதது கண்டறியப்பட்டால் பார்க்க அறிவிப்புகள் அனுப்பப்படாது.</string>
     <string name="pref_disable_remove_notifications">அறிவிப்புகளை வைத்திருங்கள்</string>
-    <string name="pref_disable_remove_notifications_summary">Do not remove notification from watch when it is removed from phone.</string>
+    <string name="pref_disable_remove_notifications_summary">Ta inte bort avisering från klockan när den tas bort från telefonen.</string>
     <string name="pref_enable_voice_apps">Voice call notifications</string>
     <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to watch.</string>
     <string name="pref_enable_local_only">Local notifications</string>
@@ -149,7 +149,7 @@
     <string name="intro_title_permissions">Access to Notifications</string>
     <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
     <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
-    <string name="intro_title_2">Install Service App on Watch</string>
+    <string name="intro_title_2">Installera Service app vid bevakningstjänst</string>
     <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
     <string name="intro_title_3">Restart Devices</string>
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
