@@ -487,7 +487,11 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
             // Enable Notification Sound if Verge Only
             Preference vergeNotificationSound = getPreferenceScreen().findPreference(Constants.PREF_NOTIFICATION_ENABLE_SOUND);
             vergeNotificationSound.setDefaultValue(Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
-            vergeNotificationSound.setEnabled(Screen.isVerge());
+            try {
+                vergeNotificationSound.setEnabled(Screen.isVerge());
+            } catch (Exception e) {
+                e.printStackTrace(); //Avoid FC if you open setting before connecting any device
+            }
 
             // Persistent Notification Settings
             Preference persistentNotificationDeviceSettingsPreference = getPreferenceScreen().findPreference("preference.persistent.notification.goto.device.settings");
