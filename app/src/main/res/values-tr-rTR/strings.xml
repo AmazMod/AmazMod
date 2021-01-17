@@ -409,7 +409,7 @@
     <string name="batter_data_export">Pil verisini dışa aktar</string>
     <string name="app_options">Uylama Seçenekleri</string>
     <string name="notification_options">App notification options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options_description">Bu kelimeleri içeren bildirimleri gösterme:\n(her satıra bir tane)</string>
     <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">ve</string>
     <plurals name="day">
