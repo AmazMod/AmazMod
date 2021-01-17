@@ -410,7 +410,7 @@
     <string name="app_options">Uylama Seçenekleri</string>
     <string name="notification_options">App notification options</string>
     <string name="notification_options_description">Bu kelimeleri içeren bildirimleri gösterme:\n(her satıra bir tane)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Sadece aşağıdaki kelimeleri içeren bildirimleri göster:\n(her satıra bir tane)</string>
     <string name="and">ve</string>
     <plurals name="day">
         <item quantity="one">gün</item>
@@ -430,8 +430,8 @@
     <string name="no_widgets_found">Widget bulunamadı</string>
     <string name="intro_description_grant_access">Erişim izni ver</string>
     <string name="intro_description_get_started">Kullanmaya Başla</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Filtre Modu:</string>
+    <string name="filter_level">Filtre Seviyesi:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Günlük özet (Adımlar)</string>
     <string name="widget_countdown">Geri Sayım</string>
@@ -509,5 +509,5 @@
     <string name="searchpreference_search">Arıyor…</string>
     <string name="searchpreference_clear_history">Geçmişi temizle</string>
     <string name="searchpreference_no_results">Sonuç yok</string>
-    <string name="enable_sleep">Enable Sleep As Android</string>
+    <string name="enable_sleep">Sleep As Android\'i Etkinleştir</string>
 </resources>
