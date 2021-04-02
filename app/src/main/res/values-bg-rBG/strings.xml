@@ -158,7 +158,7 @@
     <string name="watch_is_connected">Свързан</string>
     <string name="watch_disconnected">Прекъснат</string>
     <string name="watch_connecting">Свързване…</string>
-    <string name="watch_connecting_no_service">Включване към услугата</string>
+    <string name="watch_connecting_no_service">Включване към услугата…</string>
     <string name="notifications_screen_timeout">Време на изчакване на екрана</string>
     <string name="pref_notifications_inverted_theme">Светла тема</string>
     <string name="pref_notifications_inverted_theme_summary">Активиране на светъл фон с тъмна текстова тема.</string>
