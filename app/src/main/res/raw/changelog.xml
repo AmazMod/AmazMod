@@ -1,5 +1,12 @@
 <changelog>
     <release
+        date="2021-05-21"
+        versionCode="232"
+        versionName="v1.2.4">
+        <new>Removing background location access in accordance to latest Google Policy guidelines</new>
+        <bugfix>Bugfixes</bugfix>
+    </release>
+    <release
         date="2020-09-20"
         versionCode="231"
         versionName="v1.2.3">
