@@ -16,7 +16,7 @@
     <string name="clear_data">Изчистване на данните</string>
     <string name="uninstall">Деинсталирай</string>
     <string name="quick_launch">Бързо пускане</string>
-    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
+    <string name="quick_launch_description">Приложението може да бъде стартирано от екрана на часовника от долния бутон (продължително натискане)!</string>
     <string name="clear_app_data">Изчистване на данните от приложение</string>
     <string name="install_app">Инсталиране на приложение</string>
     <string name="delete">Изтриване</string>
@@ -167,14 +167,14 @@
     <string name="activity_menu_input_method">Промяна на метода на въвеждане</string>
     <string name="activity_menu_device_info">Информация за устройството</string>
     <string name="activity_menu_hourly_chime">Почасов звън</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
-    <string name="alarm">Alarm</string>
-    <string name="alarm_snooze">Snooze</string>
-    <string name="alarm_dismiss">Dismiss</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="uvindex_weakest">Най-слаб</string>
+    <string name="uvindex_weak">Слаб</string>
+    <string name="uvindex_moderate">Умерен</string>
+    <string name="uvindex_strong">Силен</string>
+    <string name="uvindex_verystrong">Много силен</string>
+    <string name="alarm">Аларма</string>
+    <string name="alarm_snooze">Отложи</string>
+    <string name="alarm_dismiss">Отхвърли</string>
+    <string name="camera_delay">Забавяне</string>
+    <string name="camera_shutter">Бутон за снимане</string>
 </resources>

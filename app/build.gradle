@@ -12,8 +12,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 231
-        versionName "1.2.3"
+        versionCode 232
+        versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
     }

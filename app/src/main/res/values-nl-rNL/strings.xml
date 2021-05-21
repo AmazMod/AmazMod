@@ -14,7 +14,7 @@
     <string name="brightness">Helderheid</string>
     <string name="tweaking">Tweaken</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Calendar / Weer</string>
+    <string name="watchface">GreatFit / Agenda / Weer</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
     <string name="rate_app">Beoordeel App</string>
@@ -29,7 +29,7 @@
     <string name="full_battery_in">Volledig opgeladen in</string>
     <string name="open_notifications_log">Open meldingen reg</string>
     <string name="notifications_log">Meldingen log</string>
-    <string name="delete">Verwijderen</string>
+    <string name="delete">Wissen</string>
     <string name="download">Download</string>
     <string name="deleting">Verwijderen</string>
     <string name="cant_delete_file">Kan bestand niet verwijderen</string>

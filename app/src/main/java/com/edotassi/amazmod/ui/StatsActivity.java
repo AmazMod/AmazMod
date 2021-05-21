@@ -124,7 +124,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         binding.activityStatsLogsContent.setMovementMethod(new ScrollingMovementMethod());
         binding.activityStatsRootLayout.setOnTouchListener((v, event) -> {
             binding.activityStatsLogsContent.getParent().requestDisallowInterceptTouchEvent(false);
-            binding.activityStatsLocationLogs.getParent().requestDisallowInterceptTouchEvent(false);
+            //binding.activityStatsLocationLogs.getParent().requestDisallowInterceptTouchEvent(false);
             return false;
         });
 
@@ -132,13 +132,13 @@ public class StatsActivity extends BaseAppCompatActivity {
             binding.activityStatsLogsContent.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
-
+/*
         binding.activityStatsLocationLogs.setMovementMethod(new ScrollingMovementMethod());
         binding.activityStatsLocationLogs.setOnTouchListener((v, event) -> {
             binding.activityStatsLocationLogs.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
-
+*/
         binding.activityStatsOpenNotificationsLog.setOnClickListener(v -> {
             startActivity(new Intent(this, NotificationsLogActivity.class));
         });
@@ -170,7 +170,7 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         loadStats();
         loadLogs();
-        loadLocationLogs();
+        //loadLocationLogs();
     }
 
     private void sendLogs() {
@@ -226,7 +226,7 @@ public class StatsActivity extends BaseAppCompatActivity {
             Logger.error("error reading log file");
 
     }
-
+/*
     private void loadLocationLogs() {
         // Retrieve saved location data [milliseconds, latitude, longitude, watch_status]
         Set<String> saved_data = Prefs.getStringSet(Constants.PREF_LOCATION_GPS_DATA, null);
@@ -244,7 +244,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         binding.activityStatsLocationLogs.setText(log);
         binding.activityStatsLocationLogs.setMovementMethod(new ScrollingMovementMethod());
     }
-
+*/
     @SuppressLint("CheckResult")
     private void loadStats() {
         binding.activityStatsProgress.setVisibility(View.VISIBLE);
