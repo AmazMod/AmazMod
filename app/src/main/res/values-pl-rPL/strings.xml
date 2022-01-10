@@ -78,14 +78,14 @@
     <string name="activity_about_devs">Deweloperzy</string>
     <string name="activity_about_testers">Testerzy</string>
     <string name="translators">Tłumacze</string>
-    <string name="activity_watchface_need_greatfit">Aby te opcje działały potrzebujesz tarczy \"GreatFit\" zainstalowanej na zegarku</string>
-    <string name="activity_watchface_send_data">Wyślij dane na zegarek (bateria, alarmy)</string>
+    <string name="activity_watchface_need_greatfit">Aby te opcje działały potrzebujesz tarczy \"GreatFit\" lub widgetów Calendar/Timeline zainstalowanych na zegarku</string>
+    <string name="activity_watchface_send_data">Wyślij dane z telefonu na zegarek (bateria, alarmy, kalendarze)</string>
     <string name="activity_watchface_send_data_interval_prompt">Wyb. przedział czasu</string>
     <string name="activity_watchface_send_data_interval_summary">Częstotliwość wysyłania danych</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Wyślij wydarzenia z kalendarza dla następujących dni:</string>
     <string name="activity_watchface_send_on_battery_change">Wyslij dane jak stan baterii się zmieni</string>
-    <string name="activity_watchface_send_on_alarm_change">Wysylaj każde zmiany stanu baterii</string>
-    <string name="activity_watchface_send_weather_data">Brak danych o pogodzie</string>
+    <string name="activity_watchface_send_on_alarm_change">Wysyłaj dane za każdym razem gdy alarm się zmieni</string>
+    <string name="activity_watchface_send_weather_data">Wyślij dane pogodowe</string>
     <string name="activity_watchface_weather_options">Pokaż opcje pogody</string>
     <string name="activity_watchface_send_weather_units">Jednostki pogodowe</string>
     <string name="activity_watchface_weather_real_feel">Pokaż \"odczuwalną\" zamiast aktualnej temperatury</string>
@@ -125,12 +125,12 @@
     <string name="pref_vibration_duration_summary">Ustaw czas trwania wibracji powiadomień.</string>
     <string name="pref_screen_timeout">Wygaszenie ekranu</string>
     <string name="pref_screen_timeout_summary">Ustaw czas wyświetlania ekranu powiadomień.</string>
-    <string name="pref_disable_notifications_when_dnd">Ważny tryb DND</string>
+    <string name="pref_disable_notifications_when_dnd">Uszanuj tryb DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Powiadomienia nie będą wysyłane do zegarka kiedy tryb Nie Przeszkadzać zostanie wykryty.</string>
     <string name="pref_disable_remove_notifications">Zachowaj powiadomienia</string>
     <string name="pref_disable_remove_notifications_summary">Nie usuwaj powiadomienia z zegarka kiedy zostanie ono usunięte z telefonu.</string>
     <string name="pref_enable_voice_apps">Powiadomienia o rozmowach</string>
-    <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera.</string>
+    <string name="pref_enable_voice_apps_summary">Połączenia głosowe Messengera będą wysyłać powiadomienia do zegarka.</string>
     <string name="pref_enable_local_only">Lokalne powiadomienia</string>
     <string name="pref_enable_local_only_summary">Powiadomienia są przesyłane bez działania użytkownika (np. Prognozy pogody Google). Może być konieczne rozgrupowanie = WŁ.</string>
     <string name="pref_enable_notifications_when_locked">Wyślij gdy telefon jest zablokowany</string>
@@ -206,7 +206,7 @@
     <string name="activity_files_no_write_permission">Błąd: Brak Uprawnień Zapisu!</string>
     <string name="activity_files_restore_ok">Przywracanie Zakończone, AmazMod zakończy swoje działanie…</string>
     <string name="activity_files_restore_failed">Przywracanie nie powiodło się!</string>
-    <string name="activity_files_backup_not_found">Kopia nie znaleziona!</string>
+    <string name="activity_files_backup_not_found">Kopia zapasowa nie znaleziona!</string>
     <string name="pref_disable_standard_notifications">Wyłącz standardowe powiadomienia</string>
     <string name="pref_disable_standard_notifications_summary">Standardowe powiadomienia nie będą wysyłane do zegarka.</string>
     <string name="activity_tweaking_brightness">Uwzględnij iż Automatyczna Jasność w zegarku musi być wyłączona jeżeli to ma zadziałać</string>
@@ -237,7 +237,7 @@
     <string name="apk_install_started">Instalacja trwa w tle.\nKiedy się zakończy, launcher na zekarku zostanie uruchomiony ponownie.</string>
     <string name="cant_start_apk_install">Nie można rozpocząć instalacji APK</string>
     <string name="reboot">Restart</string>
-    <string name="restart_launcher">Restart lauchera</string>
+    <string name="restart_launcher">Restartuj launcher</string>
     <string name="enable_apps_list">Włącz listę aplikacji</string>
     <string name="disable_apps_list">Wyłącz listę aplikacji</string>
     <string name="no_service_info_1">Nie można się połączyć z Usługą AmazMod na zegarku. Jeżeli nie zainstalowałeś usługi zastosuj się do poniższych instrukcji:</string>
@@ -290,9 +290,9 @@
     <string name="wifi_ap_enabling">Włączanie Punktu Dostępu WiFi...</string>
     <string name="wifi_ap_dissabling">Wyłączanie punktu dostępu WiFi...</string>
     <string name="ftp_enabling">Włączanie serwera FTP...</string>
-    <string name="ftp_dissabling">Włączanie serwera FTP...</string>
+    <string name="ftp_dissabling">Wyłączanie serwera FTP...</string>
     <string name="watch_no_wifi">Zegarek nie jest połączony z WiFi</string>
-    <string name="local_ip">Lokalny adres IP obserwowanego</string>
+    <string name="local_ip">Lokalne IP zegarka</string>
     <string name="pref_notifications_enable_delay">Opóźnienie odpowiedzi</string>
     <string name="pref_notifications_enable_delay_summary">Odliczanie opóźnienia przed wysłaniem odpowiedzi.</string>
     <string name="file_uploader">Przesyłanie plików</string>
@@ -307,7 +307,7 @@
     <string name="pref_notifications_disable_picture_summary">Zdjęcia w powiadom. nie będą wyświetlane. Oszczędza baterię.</string>
     <string name="notification_silenced">Wyciszenie</string>
     <string name="notification_text_filter">Filtrowanie</string>
-    <string name="muted_apps">Wyłącz aplikacje</string>
+    <string name="muted_apps">Wyciszone Aplikacje</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Na pewno?</string>
     <string name="cannot_be_undone">Tego nie można cofnąć.</string>
@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button">Przycisk wył. powiadomienia</string>
     <string name="pref_enable_delete_button_on">Przycisk skasuj wyświetli się poniżej powiadomień</string>
     <string name="pref_enable_delete_button_off">Przycisk skasuj jest na 4 ekranie kiedy przesuwasz powiadomienia</string>
-    <string name="activity_packageoptions_unmute">Włącz dźwięk</string>
+    <string name="activity_packageoptions_unmute">Odcisz</string>
     <string name="activity_packageoptions_muted_until">Aplikacja jest wyciszona do:</string>
     <string name="main_options">Główne opcje</string>
     <string name="watchface_calendar_source">Źródło kalendarza</string>
@@ -361,7 +361,7 @@
     <string name="clear_log">Wyczyść Logi</string>
     <string name="send_log">Wyślij Logi</string>
     <string name="battery_optimization_warning">AmazMod jest włączony w tryb optymalizacji baterii. Zalecamy usunięcie go stamtąd, aby uniknąć utraty powiadomień.</string>
-    <string name="remove">USUNĄĆ</string>
+    <string name="remove">USUŃ</string>
     <string name="grant">PRZYZNAJ</string>
     <string name="no_storage_permission">AmazMod nie ma dostępu do pamięci, proszę go przyznać.</string>
     <string name="generate_bundle">Generuj pakiet dziennika</string>
@@ -372,7 +372,7 @@
     <string name="collecting_watch_logs">Zbieranie dzienników</string>
     <string name="button_description">Przycisk</string>
     <string name="image_description">Obraz</string>
-    <string name="amazmod_service">AmazMod Serwis</string>
+    <string name="amazmod_service">Usługa AmazMod</string>
     <string name="product_model">Produkt model</string>
     <string name="product_name">Nazwa produktu</string>
     <string name="serial_number">Nr seryjny</string>
@@ -393,7 +393,7 @@
     <string name="pref_heartrate_chart">Wykres tętna</string>
     <string name="pref_heartrate_nodata">Brak dostępnych danych.</string>
     <string name="pref_heartrate_chart_summary">Pokaż wykres tętna na głównym ekranie AmazMod.</string>
-    <string name="pref_log_lines_shown">Zapisane linie rejestracji</string>
+    <string name="pref_log_lines_shown">Wyświetlane wiersze dziennika</string>
     <string name="pref_log_lines_shown_summary">Liczba wierszy wyświetlanych w widoku Dziennika.</string>
     <string name="pref_enable_internet_companion">Włącz Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Włącza AmazfitInternetCompanion (jest to przydatne tylko wtedy, gdy masz aplikację na zegarek, która go używa).</string>
@@ -409,8 +409,8 @@
     <string name="batter_data_export">Eksport danych baterii</string>
     <string name="app_options">Ustawienia aplikacji</string>
     <string name="notification_options">Opcje powiadomień</string>
-    <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających tekst: \n(jeden na linię)</string>
-    <string name="whitelist_notification_options_description">Wyświetlaj powiadomienia zawierające tekst:\n(jeden na linię)</string>
+    <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających następujące teksty: \n(jeden na linię)</string>
+    <string name="whitelist_notification_options_description">Wyświetlaj tylko powiadomienia zawierające następujące teksty:\n(jeden na linię)</string>
     <string name="and">oraz</string>
     <plurals name="day">
         <item quantity="one">dzień</item>
